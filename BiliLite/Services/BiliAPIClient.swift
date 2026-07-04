@@ -45,7 +45,10 @@ actor BiliAPIClient {
         injectHeaders(&req)
 
         let wrapper: BiliListWrapper<T> = try await executeWithRetry(req, allowRetry: true)
-        return wrapper.items ?? []
+        if let items = wrapper.items {
+            return items
+        }
+        return []
     }
 
     /// 直接获取原始 Data（用于图片下载等）

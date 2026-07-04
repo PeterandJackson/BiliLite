@@ -1,7 +1,7 @@
 import Foundation
 
 /// 视频列表项（热门列表中的视频）
-struct Video: Identifiable, Decodable {
+struct Video: Identifiable, Hashable, Decodable {
     let aid: Int
     let bvid: String
     let title: String

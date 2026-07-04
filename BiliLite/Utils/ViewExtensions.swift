@@ -63,7 +63,7 @@ extension Int {
         let now = Date()
         let interval = now.timeIntervalSince(date)
 
-        if interval < 3600 { return "\(max(1, Int(interval / 60)))分钟前" }
+        if interval < 3600 { return "\(Swift.max(1, Int(interval / 60)))分钟前" }
         if interval < 86400 { return "\(Int(interval / 3600))小时前" }
         if interval < 604800 { return "\(Int(interval / 86400))天前" }
 

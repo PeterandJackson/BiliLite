@@ -44,17 +44,14 @@ actor ImageCache {
         }
 
         // 更新时间戳
-        try? fileManager.setAttributes(
-            [.modificationDate: Date()],
-            ofItemAtPath: fileURL.path
-        )
+        try? (fileURL as NSURL).setResourceValue(Date(), forKey: .contentModificationDateKey)
 
         // 降采样
         guard let img = downsample(data: data, to: targetWidth) else { return nil }
 
         // 回填内存
         let cost = Int(img.size.width * img.size.height * 4)
-        memoryCache.setObject(img, forKey: key, cost: cost)
+        memoryCache.setObject(img, forKey: key as NSString, cost: cost)
 
         return img
     }
@@ -66,7 +63,7 @@ actor ImageCache {
 
         // 内存
         let cost = Int(image.size.width * image.size.height * 4)
-        memoryCache.setObject(image, forKey: key, cost: cost)
+        memoryCache.setObject(image, forKey: key as NSString, cost: cost)
 
         // 磁盘（异步）
         let fileURL = cacheDir.appendingPathComponent(key)
@@ -99,7 +96,7 @@ actor ImageCache {
     private func cleanupIfNeeded() {
         guard let files = try? fileManager.contentsOfDirectory(
             at: cacheDir,
-            includingPropertiesForKeys: [.fileSizeKey, .modificationDateKey]
+            includingPropertiesForKeys: [.fileSizeKey, .contentModificationDateKey]
         ) else { return }
 
         var totalSize = 0
@@ -107,8 +104,8 @@ actor ImageCache {
 
         for file in files {
             guard let attrs = try? fileManager.attributesOfItem(atPath: file.path),
-                  let size = attrs[.size] as? Int,
-                  let date = attrs[.modificationDate] as? Date else { continue }
+                  let size = attrs[FileAttributeKey.size] as? Int,
+                  let date = attrs[FileAttributeKey.modificationDate] as? Date else { continue }
             totalSize += size
             oldFiles.append((file, size, date))
         }
@@ -132,12 +129,11 @@ actor ImageCache {
 
     // MARK: - 内部
 
-    private func cacheKey(_ url: URL) -> NSString {
-        // 取 URL 路径 + 最后一段作为 key
+    private func cacheKey(_ url: URL) -> String {
         let key = url.absoluteString.data(using: .utf8)!.base64EncodedString()
             .replacingOccurrences(of: "/", with: "_")
             .prefix(64)
-        return String(key) as NSString
+        return String(key)
     }
 
     /// 降采样图片到目标宽度

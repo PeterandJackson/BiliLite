@@ -132,11 +132,4 @@ final class PlayerViewModel: ObservableObject {
         }
     }
 
-    deinit {
-        if let obs = timeObserver {
-            Task { @MainActor [p = player] in
-                p?.removeTimeObserver(obs)
-            }
-        }
-    }
 }

@@ -60,13 +60,15 @@ struct VideoDetailView: View {
             guard newBvid != detailVM.bvid else { return }
             relatedIndex = 0; selectedPage = 0; danmakuItems = []
             isLiked = false; isCoined = false
-            await detailVM.reload(bvid: newBvid)
-            if let d = detailVM.detail {
-                favVM.addHistory(Video(aid: d.aid, bvid: d.bvid, title: d.title, pic: d.pic, duration: d.duration, owner: d.owner, stat: d.stat, pubdate: d.pubdate, desc: d.desc, cid: d.currentCID))
-            }
-            if let c = detailVM.detail?.currentCID {
-                await playerVM.play(bvid: newBvid, cid: c)
-                if let it = try? await DanmakuParser.shared.fetchDanmaku(cid: c) { danmakuItems = it }
+            Task {
+                await detailVM.reload(bvid: newBvid)
+                if let d = detailVM.detail {
+                    favVM.addHistory(Video(aid: d.aid, bvid: d.bvid, title: d.title, pic: d.pic, duration: d.duration, owner: d.owner, stat: d.stat, pubdate: d.pubdate, desc: d.desc, cid: d.currentCID))
+                }
+                if let c = detailVM.detail?.currentCID {
+                    await playerVM.play(bvid: newBvid, cid: c)
+                    if let it = try? await DanmakuParser.shared.fetchDanmaku(cid: c) { danmakuItems = it }
+                }
             }
         }
         .onChange(of: selectedPage) { idx in

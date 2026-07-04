@@ -84,7 +84,7 @@ private struct BiliWebView: UIViewRepresentable {
             if let host = navigationAction.request.url?.host,
                host.contains("bilibili.com"),
                !host.contains("passport.bilibili.com") {
-                viewModel?.navigatedAwayFromPassport = true
+                Task { @MainActor in viewModel?.navigatedAwayFromPassport = true }
             }
         }
     }

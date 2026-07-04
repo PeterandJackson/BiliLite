@@ -1,7 +1,7 @@
 import Foundation
 
 /// 视频列表项（热门列表中的视频）
-struct Video: Identifiable, Hashable, Decodable {
+struct Video: Identifiable, Hashable, Codable {
     let aid: Int
     let bvid: String
     let title: String
@@ -23,7 +23,7 @@ struct Video: Identifiable, Hashable, Decodable {
 }
 
 /// UP主简要信息
-struct VideoOwner: Decodable, Hashable {
+struct VideoOwner: Codable, Hashable {
     let mid: Int
     let name: String
     let face: String
@@ -34,7 +34,7 @@ struct VideoOwner: Decodable, Hashable {
 }
 
 /// 视频统计数据
-struct VideoStat: Decodable, Hashable {
+struct VideoStat: Codable, Hashable {
     let view: Int
     let danmaku: Int
     let reply: Int

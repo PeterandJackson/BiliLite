@@ -1,20 +1,31 @@
 import SwiftUI
 import AVFoundation
 
-/// 直播播放 ViewModel — B站直播流 HLS/FLV
+/// 直播播放 ViewModel — B站直播流 + 房间列表
 @MainActor
 final class LiveViewModel: ObservableObject {
     @Published var player: AVPlayer?
     @Published var isPlaying = false
     @Published var isLoading = false
+    @Published var isLoadingList = false
     @Published var errorMessage: String?
     @Published var roomTitle = ""
     @Published var ownerName = ""
     @Published var onlineCount = 0
-    @Published var liveStatus = 0  // 1=直播中
+    @Published var liveStatus = 0
     @Published var qualityOptions: [LiveQuality] = []
-    @Published var currentQualityIndex = 0
     @Published var danmakuItems: [DanmakuItem] = []
+    @Published var rooms: [LiveRoomItem] = []
+
+    /// 加载热门直播房间列表
+    func loadRooms() async {
+        isLoadingList = true
+        do {
+            let resp: LiveListResp = try await BiliAPIClient.shared.get("/xlive/web-interface/v2/index/getTopList", params: ["platform": "web"])
+            rooms = resp.data.rooms ?? []
+        } catch {}
+        isLoadingList = false
+    }
 
     /// 加载直播间信息 + 流地址
     func loadRoom(roomId: Int) async {
@@ -106,6 +117,16 @@ struct LiveQuality: Identifiable {
         default:  return "\(qn)P"
         }
     }
+}
+
+// MARK: - 房间列表模型
+
+struct LiveRoomItem: Identifiable, Decodable {
+    let roomid: Int; let uid: Int?; let title: String?; let uname: String?; let online: Int?; let cover: String?; let user_cover: String?
+    var id: Int { roomid }
+}
+private struct LiveListResp: Decodable {
+    let data: LiveListData; struct LiveListData: Decodable { let rooms: [LiveRoomItem]? }
 }
 
 // MARK: - 直播响应模型

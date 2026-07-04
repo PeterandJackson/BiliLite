@@ -8,6 +8,10 @@ enum BiliAPI {
 
     /// 首页热门视频（无需签名）
     static let popular = "/x/web-interface/popular"
+    /// 个性化推荐（WBI签名）
+    static let recommend = "/x/web-interface/wbi/index/top/feed/rcmd"
+    /// 热搜榜
+    static let hotSearch = "/x/web-interface/wbi/search/square"
     /// WBI密钥获取
     static let nav = "/x/web-interface/nav"
     /// 视频详情 (WBI)

@@ -37,6 +37,19 @@ actor BiliAPIClient {
         return try await executeWithRetry(req, allowRetry: true)
     }
 
+    /// POST 请求（用于登录等）
+    func post<T: Decodable>(_ path: String, params: [String: String] = [:], baseURL: String = BiliAPI.baseURL) async throws -> T {
+        let url = try buildURL(path, params: [:], baseURL: baseURL)
+        var req = URLRequest(url: url)
+        req.httpMethod = "POST"
+        req.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        injectHeaders(&req, forPassport: baseURL.contains("passport"))
+        // 构造 body
+        var comps = URLComponents(); comps.queryItems = params.map { URLQueryItem(name: $0.key, value: $0.value) }
+        req.httpBody = comps.query?.data(using: .utf8)
+        return try await executeWithRetry(req, allowRetry: true)
+    }
+
     /// 直接获取原始 Data（用于图片下载等）
     func getData(_ url: URL) async throws -> Data {
         var req = URLRequest(url: url)

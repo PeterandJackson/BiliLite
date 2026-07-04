@@ -8,30 +8,27 @@ struct VideoDetailView: View {
     @State private var selectedPage = 0
     @State private var danmakuItems: [DanmakuItem] = []
     @State private var showDanmaku = true
+    @State private var isLiked = false; @State private var isCoined = false
+    @State private var hasLogin: Bool = false
 
-    init(bvid: String) {
-        self.bvid = bvid
-        _detailVM = StateObject(wrappedValue: VideoDetailViewModel(bvid: bvid))
-    }
+    init(bvid: String) { self.bvid = bvid; _detailVM = StateObject(wrappedValue: VideoDetailViewModel(bvid: bvid)) }
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 0) {
-                if let error = detailVM.errorMessage {
-                    ErrorBanner(message: error) { Task { await detailVM.load() } }.padding(.top, 8)
-                }
-                if detailVM.isLoading && detailVM.detail == nil {
-                    LoadingView(message: "加载中…").frame(height: 300)
-                }
-                if let detail = detailVM.detail {
-                    playerSection(detail)
-                    infoSection(detail)
+                if let e = detailVM.errorMessage { ErrorBanner(message: e) { Task { await detailVM.load() } }.padding(.top, 8) }
+                if detailVM.isLoading && detailVM.detail == nil { LoadingView(message: "加载…").frame(height: 300) }
+                if let d = detailVM.detail {
+                    playerSection(d)
+                    infoSection(d)
                     Divider().padding(.horizontal)
-                    descriptionSection(detail)
+                    actionBar(d)
                     Divider().padding(.horizontal)
-                    pageSection(detail)
+                    descriptionSection(d)
                     Divider().padding(.horizontal)
-                    commentsLink(detail)
+                    pageSection(d)
+                    Divider().padding(.horizontal)
+                    commentsLink(d)
                     Divider()
                     relatedVideosSection
                 }
@@ -42,164 +39,120 @@ struct VideoDetailView: View {
         .task {
             await detailVM.load()
             favVM.loadFavorites(); favVM.loadHistory()
-            if let detail = detailVM.detail {
-                let v = Video(aid: detail.aid, bvid: detail.bvid, title: detail.title, pic: detail.pic,
-                               duration: detail.duration, owner: detail.owner, stat: detail.stat,
-                               pubdate: detail.pubdate, desc: detail.desc, cid: detail.currentCID)
-                favVM.addHistory(v)
+            hasLogin = UserDefaults.standard.string(forKey: "bili_sessdata")?.isEmpty == false
+            if let d = detailVM.detail {
+                favVM.addHistory(Video(aid: d.aid, bvid: d.bvid, title: d.title, pic: d.pic, duration: d.duration, owner: d.owner, stat: d.stat, pubdate: d.pubdate, desc: d.desc, cid: d.currentCID))
             }
-            if let cid = detailVM.detail?.currentCID {
-                await playerVM.play(bvid: bvid, cid: cid)
-                if let items = try? await DanmakuParser.shared.fetchDanmaku(cid: cid) {
-                    danmakuItems = items
-                }
+            if let c = detailVM.detail?.currentCID {
+                await playerVM.play(bvid: bvid, cid: c)
+                if let it = try? await DanmakuParser.shared.fetchDanmaku(cid: c) { danmakuItems = it }
             }
+            playerVM.onVideoEnded = { autoPlayNextIfNeeded() }
         }
         .onChange(of: selectedPage) { idx in
             guard let pages = detailVM.detail?.pages, idx < pages.count else { return }
-            let cid = pages[idx].cid
-            Task {
-                await playerVM.play(bvid: bvid, cid: cid)
-                if let items = try? await DanmakuParser.shared.fetchDanmaku(cid: cid) {
-                    danmakuItems = items
-                }
-            }
+            let c = pages[idx].cid
+            Task { await playerVM.play(bvid: bvid, cid: c); if let it = try? await DanmakuParser.shared.fetchDanmaku(cid: c) { danmakuItems = it } }
         }
         .onDisappear { playerVM.stop() }
     }
 
+    private func autoPlayNextIfNeeded() {
+        guard let next = detailVM.relatedVideos.first else { return }
+        Task {
+            await playerVM.play(bvid: next.bvid, cid: next.cid ?? 0)
+            if let it = try? await DanmakuParser.shared.fetchDanmaku(cid: next.cid ?? 0) { danmakuItems = it }
+            let v = Video(aid: next.aid, bvid: next.bvid, title: next.title, pic: next.pic, duration: next.duration, owner: next.owner, stat: next.stat, pubdate: next.pubdate, desc: next.desc, cid: next.cid)
+            favVM.addHistory(v)
+        }
+    }
+
     // MARK: - 播放器
-    private func playerSection(_ detail: VideoDetail) -> some View {
+    private func playerSection(_ d: VideoDetail) -> some View {
         VStack(spacing: 0) {
-            if playerVM.isLoading {
-                ZStack { Color.black; LoadingView(message: "加载播放器…").foregroundColor(.white) }
-                    .aspectRatio(16/9, contentMode: .fit)
-            } else {
+            if playerVM.isLoading { ZStack { Color.black; LoadingView(message: "加载…").foregroundColor(.white) }.aspectRatio(16/9, contentMode: .fit) }
+            else {
                 ZStack {
                     VideoPlayerView(vm: playerVM)
-                    // 弹幕层
-                    if showDanmaku && !danmakuItems.isEmpty {
-                        DanmakuView(items: danmakuItems, currentTime: playerVM.currentTime)
-                            .allowsHitTesting(false)
-                    }
+                    if showDanmaku && !danmakuItems.isEmpty { DanmakuView(items: danmakuItems, currentTime: playerVM.currentTime).allowsHitTesting(false) }
                 }
                 .aspectRatio(16/9, contentMode: .fit)
-
-                // 弹幕开关
                 HStack(spacing: 12) {
                     Toggle("弹幕", isOn: $showDanmaku).font(.caption).toggleStyle(.switch).tint(.pink)
+                    Toggle("联播", isOn: $playerVM.autoPlayNext).font(.caption).toggleStyle(.switch).tint(.pink)
                     Spacer()
-                    // 高清切换
                     if playerVM.availableQualities.count > 1 {
-                        Menu {
-                            ForEach(playerVM.availableQualities, id: \.rawValue) { q in
-                                Button(q.label) { Task { await playerVM.switchQuality(q) } }
-                            }
-                        } label: {
-                            Label(playerVM.currentQuality.label, systemImage: "gearshape").font(.caption)
-                        }
+                        Menu { ForEach(playerVM.availableQualities, id: \.rawValue) { q in Button(q.label) { Task { await playerVM.switchQuality(q) } } } }
+                        label: { Label(playerVM.currentQuality.label, systemImage: "gearshape").font(.caption) }
                     }
-                }
-                .padding(.horizontal, 12).padding(.vertical, 6)
-                .background(Color(.systemBackground))
+                }.padding(.horizontal, 12).padding(.vertical, 6).background(Color(.systemBackground))
             }
         }
     }
 
-    // MARK: - 视频信息
-    private func infoSection(_ detail: VideoDetail) -> some View {
+    // MARK: - 信息
+    private func infoSection(_ d: VideoDetail) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text(detail.title).font(.headline).lineLimit(3).padding(.horizontal)
+            Text(d.title).font(.headline).lineLimit(3).padding(.horizontal)
             HStack(spacing: 16) {
-                Label(detail.stat.view.biliFormatted, systemImage: "play.rectangle")
-                Label(detail.stat.danmaku.biliFormatted, systemImage: "text.bubble")
-                Label(detail.stat.like.biliFormatted, systemImage: "hand.thumbsup")
-                Label(detail.stat.coin.biliFormatted, systemImage: "bitcoinsign")
-                if let tname = detail.tname { Label(tname, systemImage: "rectangle.grid.1x2") }
-            }
-            .font(.caption).foregroundColor(.secondary).padding(.horizontal)
-
+                Label(d.stat.view.biliFormatted, systemImage: "play.rectangle")
+                Label(d.stat.danmaku.biliFormatted, systemImage: "text.bubble")
+                Label(d.stat.like.biliFormatted, systemImage: "hand.thumbsup")
+                Label(d.stat.coin.biliFormatted, systemImage: "bitcoinsign")
+                if let t = d.tname { Label(t, systemImage: "rectangle.grid.1x2") }
+            }.font(.caption).foregroundColor(.secondary).padding(.horizontal)
             HStack(spacing: 10) {
-                CachedAsyncImage(url: detail.owner.faceURL).frame(width: 40, height: 40).clipShape(Circle())
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(detail.owner.name).font(.subheadline.bold())
-                    Text("\(detail.pubdate.relativeDate) 发布").font(.caption).foregroundColor(.secondary)
-                }
+                CachedAsyncImage(url: d.owner.faceURL).frame(width: 40, height: 40).clipShape(Circle())
+                VStack(alignment: .leading, spacing: 2) { Text(d.owner.name).font(.subheadline.bold()); Text("\(d.pubdate.relativeDate)").font(.caption).foregroundColor(.secondary) }
                 Spacer()
-                // 收藏按钮
-                Button(action: {
-                    let v = Video(aid: detail.aid, bvid: detail.bvid, title: detail.title, pic: detail.pic,
-                                   duration: detail.duration, owner: detail.owner, stat: detail.stat,
-                                   pubdate: detail.pubdate, desc: detail.desc, cid: detail.currentCID)
-                    if favVM.isFavorited(detail.bvid) { favVM.removeFavorite(v) }
-                    else { favVM.addFavorite(v) }
-                }) {
-                    Image(systemName: favVM.isFavorited(detail.bvid) ? "star.fill" : "star")
-                        .font(.title3).foregroundColor(favVM.isFavorited(detail.bvid) ? .yellow : .secondary)
-                }
-                .padding(.trailing)
+                // 收藏
+                Button { toggleFav(d) } label: { Image(systemName: favVM.isFavorited(d.bvid) ? "star.fill" : "star").font(.title3).foregroundColor(favVM.isFavorited(d.bvid) ? .yellow : .secondary) }
+            }.padding(.horizontal)
+        }.padding(.vertical, 12).background(Color(.systemBackground))
+    }
+
+    // MARK: - 操作栏（点赞投币分享）
+    private func actionBar(_ d: VideoDetail) -> some View {
+        HStack(spacing: 0) {
+            actionButton("hand.thumbsup", "点赞 \(d.stat.like.biliFormatted)", isActive: isLiked) {
+                if hasLogin { isLiked.toggle() } else { /* 弹登录 */ }
             }
-            .padding(.horizontal)
-        }
-        .padding(.vertical, 12).background(Color(.systemBackground))
+            actionButton("bitcoinsign", "投币 \(d.stat.coin.biliFormatted)", isActive: isCoined) {
+                if hasLogin { isCoined.toggle() } else {}
+            }
+            actionButton("star", "收藏 \(d.stat.favorite.biliFormatted)", isActive: favVM.isFavorited(d.bvid)) { toggleFav(d) }
+            actionButton("square.and.arrow.up", "分享", isActive: false) {
+                let text = "https://www.bilibili.com/video/\(d.bvid)"
+                let av = UIActivityViewController(activityItems: [URL(string: text)!], applicationActivities: nil)
+                UIApplication.shared.connectedScenes.first.flatMap { ($0 as? UIWindowScene)?.windows.first?.rootViewController?.present(av, animated: true) }
+            }
+        }.padding(.vertical, 4).background(Color(.systemBackground))
     }
 
-    // MARK: - 简介
-    @ViewBuilder
-    private func descriptionSection(_ detail: VideoDetail) -> some View {
-        let desc = detail.descStripped
-        if !desc.isEmpty {
-            VStack(alignment: .leading, spacing: 6) {
-                Text("简介").font(.subheadline.bold())
-                Text(desc).font(.subheadline).foregroundColor(.secondary).lineLimit(5)
-            }.padding().background(Color(.systemBackground))
-        }
+    private func actionButton(_ icon: String, _ label: String, isActive: Bool, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            VStack(spacing: 4) {
+                Image(systemName: isActive ? "\(icon).fill" : icon).font(.title3).foregroundColor(isActive ? .pink : .secondary)
+                Text(label).font(.system(size: 10)).foregroundColor(.secondary)
+            }
+        }.frame(maxWidth: .infinity)
     }
 
-    // MARK: - 分P
-    @ViewBuilder
-    private func pageSection(_ detail: VideoDetail) -> some View {
-        if let pages = detail.pages, pages.count > 1 {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("分P (\(pages.count))").font(.subheadline.bold()).padding(.horizontal)
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 8) {
-                        ForEach(Array(pages.enumerated()), id: \.offset) { idx, page in
-                            Button {
-                                selectedPage = idx
-                            } label: {
-                                Text(page.part).font(.caption).lineLimit(1)
-                                    .padding(.horizontal, 12).padding(.vertical, 8)
-                                    .background(idx == selectedPage ? Color.pink : Color(.systemGray5))
-                                    .foregroundColor(idx == selectedPage ? .white : .primary)
-                                    .clipShape(Capsule())
-                            }.buttonStyle(.plain)
-                        }
-                    }.padding(.horizontal)
-                }
-            }.padding(.vertical, 12).background(Color(.systemBackground))
-        }
+    private func toggleFav(_ d: VideoDetail) {
+        let v = Video(aid: d.aid, bvid: d.bvid, title: d.title, pic: d.pic, duration: d.duration, owner: d.owner, stat: d.stat, pubdate: d.pubdate, desc: d.desc, cid: d.currentCID)
+        if favVM.isFavorited(d.bvid) { favVM.removeFavorite(v) } else { favVM.addFavorite(v) }
     }
 
-    private func commentsLink(_ detail: VideoDetail) -> some View {
-        NavigationLink {
-            CommentListView(oid: detail.aid, upperName: detail.owner.name)
-        } label: {
-            HStack {
-                Text("评论 (\(detail.stat.reply.biliFormatted))").font(.subheadline.bold()).foregroundColor(.primary)
-                Spacer(); Image(systemName: "chevron.right").font(.caption).foregroundColor(.secondary)
-            }.padding().background(Color(.systemBackground))
-        }
+    @ViewBuilder private func descriptionSection(_ d: VideoDetail) -> some View {
+        let desc = d.descStripped
+        if !desc.isEmpty { VStack(alignment: .leading, spacing: 6) { Text("简介").font(.subheadline.bold()); Text(desc).font(.subheadline).foregroundColor(.secondary).lineLimit(5) }.padding().background(Color(.systemBackground)) }
     }
-
+    @ViewBuilder private func pageSection(_ d: VideoDetail) -> some View {
+        if let p = d.pages, p.count > 1 { VStack(alignment: .leading, spacing: 8) { Text("分P (\(p.count))").font(.subheadline.bold()).padding(.horizontal); ScrollView(.horizontal, showsIndicators: false) { HStack(spacing: 8) { ForEach(Array(p.enumerated()), id: \.offset) { i, pg in Button { selectedPage = i } label: { Text(pg.part).font(.caption).lineLimit(1).padding(.horizontal, 12).padding(.vertical, 8).background(i == selectedPage ? Color.pink : Color(.systemGray5)).foregroundColor(i == selectedPage ? .white : .primary).clipShape(Capsule()) }.buttonStyle(.plain) } }.padding(.horizontal) } }.padding(.vertical, 12).background(Color(.systemBackground)) } }
+    private func commentsLink(_ d: VideoDetail) -> some View {
+        NavigationLink { CommentListView(oid: d.aid, upperName: d.owner.name) } label: { HStack { Text("评论 (\(d.stat.reply.biliFormatted))").font(.subheadline.bold()).foregroundColor(.primary); Spacer(); Image(systemName: "chevron.right").font(.caption).foregroundColor(.secondary) }.padding().background(Color(.systemBackground)) }
+    }
     private var relatedVideosSection: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("相关视频").font(.headline).padding(.horizontal).padding(.top, 8)
-            LazyVStack(spacing: 12) {
-                ForEach(detailVM.relatedVideos) { video in
-                    NavigationLink(value: video) { VideoCard(video: video) }.buttonStyle(.plain)
-                }
-            }
-        }.background(Color(.systemBackground)).padding(.top, 4)
+        VStack(alignment: .leading, spacing: 8) { Text("相关视频").font(.headline).padding(.horizontal).padding(.top, 8); LazyVStack(spacing: 12) { ForEach(detailVM.relatedVideos) { v in NavigationLink(value: v) { VideoCard(video: v) }.buttonStyle(.plain) } } }.background(Color(.systemBackground)).padding(.top, 4)
     }
 }

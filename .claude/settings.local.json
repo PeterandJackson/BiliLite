@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(\\(Get-Item \"c:\\\\Users\\\\Administrator\\\\.claude\\\\projects\\\\c--Users-Administrator-Desktop------------\\\\e66ecf40-df10-42b5-9d73-6669acf97f0e.jsonl\"\\).Length / 1KB)",
+      "WebSearch",
+      "WebFetch(domain:bigideasdb.com)",
+      "WebFetch(domain:www.36kr.com)",
+      "WebFetch(domain:yy.voc.com.cn)",
+      "WebFetch(domain:www.cnr.cn)",
+      "PowerShell(Get-ChildItem \"$env:LOCALAPPDATA\" -Directory | Where-Object { $_.Name -match 'claude|cc|deepseek|anthropic' } | Select-Object Name, FullName)",
+      "PowerShell(Get-ChildItem \"$env:APPDATA\" -Directory | Where-Object { $_.Name -match 'claude|cc|deepseek|anthropic' } | Select-Object Name, FullName)",
+      "PowerShell(Get-ChildItem \"C:\\\\Program Files\" -Directory | Where-Object { $_.Name -match 'claude|cc|deepseek' } | Select-Object Name; Get-ChildItem \"C:\\\\Program Files \\(x86\\)\" -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'claude|cc|deepseek' } | Select-Object Name)",
+      "PowerShell(Get-Command claude-mode -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command cc-switch -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command ccswitch -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Process | Where-Object { $_.ProcessName -match 'cc|switch|claude' } | Select-Object Id, ProcessName, MainWindowTitle)",
+      "PowerShell(Get-Process | Where-Object { $_.ProcessName -match '^\\(claude|cc-switch|CCXProcess\\)$' } | ForEach-Object { try { Stop-Process -Id $_.Id -Force; Write-Output \"已终止: $\\($_.ProcessName\\) \\(PID $\\($_.Id\\)\\)\" } catch { Write-Output \"无法终止: $\\($_.ProcessName\\) \\(PID $\\($_.Id\\)\\): $_\" } })",
+      "PowerShell(Get-Process -Name \"claude\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Force)",
+      "PowerShell(Get-Process -Name \"cc-switch\" -ErrorAction SilentlyContinue)",
+      "PowerShell(Stop-Process -Force -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Process -Name \"claude\" -ErrorAction SilentlyContinue | ForEach-Object { if \\($_.MainWindowTitle -ne \"\"\\) { Write-Output \"Closing: PID=$\\($_.Id\\) Title=$\\($_.MainWindowTitle\\)\"; Stop-Process -Id $_.Id -Force -ErrorAction SilentlyContinue } }; Write-Output \"Done closing Claude Desktop windows\")",
+      "PowerShell(npx deepclaude-mixed-setup)",
+      "PowerShell(Get-Command node -ErrorAction SilentlyContinue | Select-Object Source; Get-Command npm -ErrorAction SilentlyContinue | Select-Object Source; Get-ChildItem \"C:\\\\Program Files\\\\nodejs\" -ErrorAction SilentlyContinue | Select-Object Name; Get-ChildItem \"$env:APPDATA\\\\npm\" -ErrorAction SilentlyContinue | Select-Object Name)",
+      "PowerShell($env:PATH -split ';' | Where-Object { $_ -match 'node|npm' })",
+      "PowerShell(Get-Process -Name \"CCXProcess\" -ErrorAction SilentlyContinue)",
+      "PowerShell(winget --version)",
+      "PowerShell(Get-Process -Name \"claude\" -ErrorAction SilentlyContinue | ForEach-Object { $_.Path } | Select-Object -First 3)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\Administrator\\\\AppData\\\\Local\\\\Programs\" -Directory | Select-Object FullName; Get-ChildItem \"C:\\\\Program Files\\\\WindowsApps\" -Directory -ErrorAction SilentlyContinue | Where-Object { $_.Name -match 'claude|anthropic' } | Select-Object FullName)",
+      "PowerShell(Get-ChildItem \"$env:USERPROFILE\\\\AppData\\\\Roaming\\\\CC\" -Recurse | Select-Object FullName)"
+    ]
+  }
+}

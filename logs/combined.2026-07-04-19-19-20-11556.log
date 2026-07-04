@@ -1,0 +1,2 @@
+2026-07-04 19:19:21 [default] INFO: conversationId: ["[prompt] skip preload",{"isDev":false,"hasDyehAgentConfigVersion":false}]
+2026-07-04 19:19:21 [default] WARN: conversationId: ["[bootstrap] skip root agent prebuild: projectPath or uid is empty",{"hasProjectPath":false,"hasUid":false}]

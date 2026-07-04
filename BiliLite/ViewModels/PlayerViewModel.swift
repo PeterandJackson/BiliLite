@@ -3,133 +3,98 @@ import AVFoundation
 
 @MainActor
 final class PlayerViewModel: ObservableObject {
-    @Published var player: AVPlayer?
+    @Published var player = AVPlayer()
     @Published var isPlaying = false
     @Published var currentTime: Double = 0
-    @Published var duration: Double = 0
+    @Published var duration: Double = 1
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var currentQuality: BiliQuality = .p480
+    @Published var availableQualities: [BiliQuality] = [.p360, .p480]
+    @Published var isFullscreen = false
 
     private var timeObserver: Any?
-    private var currentURL: URL?
+    var currentBvid: String = ""
+    var currentCid: Int = 0
 
-    /// 加载并播放视频
     func play(bvid: String, cid: Int, quality: BiliQuality = .p480) async {
         isLoading = true
         errorMessage = nil
+        currentBvid = bvid
+        currentCid = cid
+        currentQuality = quality
 
         do {
             let stream: VideoStream = try await BiliAPIClient.shared.getWBI(
                 BiliAPI.playURL,
                 params: [
-                    "bvid": bvid,
-                    "cid": "\(cid)",
-                    "qn": "\(quality.rawValue)",
-                    "fnval": "1",       // MP4 模式
-                    "fnver": "0",
-                    "fourk": "0"
+                    "bvid": bvid, "cid": "\(cid)",
+                    "qn": "\(quality.rawValue)", "fnval": "1", "fnver": "0", "fourk": "0"
                 ]
             )
-
             guard let url = stream.firstURL else {
-                errorMessage = "未能获取播放地址"
-                isLoading = false
-                return
+                errorMessage = "未能获取播放地址"; isLoading = false; return
             }
-
-            currentURL = url
+            if let accepted = stream.acceptQuality {
+                availableQualities = accepted.compactMap { BiliQuality(rawValue: $0) }
+            }
             setupPlayer(with: url)
-        } catch {
-            errorMessage = error.localizedDescription
-        }
-
+        } catch { errorMessage = error.localizedDescription }
         isLoading = false
     }
 
+    func switchQuality(_ q: BiliQuality) async {
+        currentQuality = q
+        await play(bvid: currentBvid, cid: currentCid, quality: q)
+    }
+
     private func setupPlayer(with url: URL) {
-        // 复用播放器
-        if player == nil {
-            player = AVPlayer()
-        }
-
-        // 配置 headers（CDN 需要 Referer）
-        var request = URLRequest(url: url)
-        request.setValue(BiliAPI.referer, forHTTPHeaderField: "Referer")
-        request.setValue(BiliAPI.userAgent, forHTTPHeaderField: "User-Agent")
-
+        removeTimeObserver()
         let asset = AVURLAsset(url: url, options: [
             "AVURLAssetHTTPHeaderFieldsKey": [
                 "Referer": BiliAPI.referer,
                 "User-Agent": BiliAPI.userAgent
             ]
         ])
-
         let item = AVPlayerItem(asset: asset)
-        player?.replaceCurrentItem(with: item)
+        player.replaceCurrentItem(with: item)
 
-        // 时间观察
-        removeTimeObserver()
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
-            self?.currentTime = time.seconds
-            if let d = self?.player?.currentItem?.duration, d.isNumeric {
-                self?.duration = d.seconds
+        timeObserver = player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] t in
+            guard let self else { return }
+            self.currentTime = t.seconds
+            if let d = self.player.currentItem?.duration, d.isNumeric {
+                self.duration = d.seconds
             }
         }
-
-        // 监听播放结束
-        NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemDidPlayToEndTime,
-            object: item,
-            queue: .main
-        ) { [weak self] _ in
+        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: item, queue: .main) { [weak self] _ in
             self?.isPlaying = false
         }
-
-        player?.play()
+        player.play()
         isPlaying = true
     }
 
-    // MARK: - 控制
-
     func togglePlayPause() {
-        guard let p = player else { return }
-        if p.rate > 0 {
-            p.pause()
-            isPlaying = false
-        } else {
-            p.play()
-            isPlaying = true
-        }
+        if player.rate > 0 { player.pause(); isPlaying = false }
+        else { player.play(); isPlaying = true }
     }
 
     func seek(to time: Double) {
-        let cmTime = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        player?.seek(to: cmTime)
+        player.seek(to: CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
     }
 
-    func seekForward(_ seconds: Double = 10) {
-        let newTime = min(currentTime + seconds, duration)
-        seek(to: newTime)
-    }
-
-    func seekBackward(_ seconds: Double = 10) {
-        let newTime = max(currentTime - seconds, 0)
-        seek(to: newTime)
-    }
+    func seekForward(_ s: Double = 10)  { seek(to: min(currentTime + s, duration)) }
+    func seekBackward(_ s: Double = 10) { seek(to: max(currentTime - s, 0)) }
+    func toggleFullscreen() { isFullscreen.toggle() }
 
     func stop() {
-        player?.pause()
-        player?.replaceCurrentItem(with: nil)
         removeTimeObserver()
+        player.pause()
+        player.replaceCurrentItem(with: nil)
         isPlaying = false
     }
 
     private func removeTimeObserver() {
-        if let obs = timeObserver {
-            player?.removeTimeObserver(obs)
-            timeObserver = nil
-        }
+        if let obs = timeObserver { player.removeTimeObserver(obs); timeObserver = nil }
     }
-
 }

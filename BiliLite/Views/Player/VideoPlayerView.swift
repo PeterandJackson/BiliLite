@@ -1,22 +1,54 @@
 import SwiftUI
 import AVKit
 
-/// AVPlayer 的 UIViewRepresentable 包装
-struct VideoPlayerView: UIViewControllerRepresentable {
-    let player: AVPlayer?
+/// 自定义播放器 — 不跟系统 PiP 冲突，支持全屏
+struct VideoPlayerView: View {
+    @ObservedObject var vm: PlayerViewModel
 
-    func makeUIViewController(context: Context) -> AVPlayerViewController {
-        let vc = AVPlayerViewController()
-        vc.player = player
-        vc.showsPlaybackControls = true
-        vc.videoGravity = .resizeAspect
-        vc.allowsPictureInPicturePlayback = true
-        return vc
+    var body: some View {
+        GeometryReader { geo in
+            ZStack {
+                // 视频层
+                PlayerLayerView(player: vm.player)
+                    .frame(width: geo.size.width, height: geo.size.height)
+
+                // 覆盖层
+                PlayerOverlay(viewModel: vm)
+            }
+        }
+        .background(Color.black)
+        .onDisappear { vm.stop() }
+    }
+}
+
+/// AVPlayerLayer 的 SwiftUI 桥接 — 不用 AVPlayerViewController
+private struct PlayerLayerView: UIViewRepresentable {
+    let player: AVPlayer
+
+    func makeUIView(context: Context) -> PlayerUIView {
+        PlayerUIView(player: player)
     }
 
-    func updateUIViewController(_ vc: AVPlayerViewController, context: Context) {
-        if vc.player !== player {
-            vc.player = player
-        }
+    func updateUIView(_ uiView: PlayerUIView, context: Context) {
+        uiView.playerLayer.player = player
+    }
+}
+
+private final class PlayerUIView: UIView {
+    let playerLayer = AVPlayerLayer()
+
+    init(player: AVPlayer) {
+        super.init(frame: .zero)
+        playerLayer.player = player
+        playerLayer.videoGravity = .resizeAspect
+        playerLayer.backgroundColor = UIColor.black.cgColor
+        layer.addSublayer(playerLayer)
+    }
+
+    required init?(coder: NSCoder) { fatalError() }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        playerLayer.frame = bounds
     }
 }

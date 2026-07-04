@@ -20,11 +20,11 @@ actor BiliAPIClient {
 
     // MARK: - 公开方法
 
-    /// GET 不需要 WBI 签名的接口
-    func get<T: Decodable>(_ path: String, params: [String: String] = [:]) async throws -> T {
-        let url = try buildURL(path, params: params)
+    /// GET 不需要 WBI 签名的接口（支持完整 URL 或相对路径）
+    func get<T: Decodable>(_ path: String, params: [String: String] = [:], baseURL: String = BiliAPI.baseURL) async throws -> T {
+        let url = try buildURL(path, params: params, baseURL: baseURL)
         var req = URLRequest(url: url)
-        injectHeaders(&req)
+        injectHeaders(&req, forPassport: baseURL.contains("passport"))
         return try await executeWithRetry(req)
     }
 
@@ -56,8 +56,9 @@ actor BiliAPIClient {
 
     // MARK: - 内部方法
 
-    private func buildURL(_ path: String, params: [String: String]) throws -> URL {
-        var components = URLComponents(string: "\(BiliAPI.baseURL)\(path)")
+    private func buildURL(_ path: String, params: [String: String], baseURL: String = BiliAPI.baseURL) throws -> URL {
+        let base = path.hasPrefix("http") ? "" : baseURL
+        var components = URLComponents(string: "\(base)\(path)")
         if !params.isEmpty {
             components?.queryItems = params.map { URLQueryItem(name: $0.key, value: $0.value) }
         }
@@ -67,13 +68,15 @@ actor BiliAPIClient {
         return url
     }
 
-    private func injectHeaders(_ req: inout URLRequest) {
+    private func injectHeaders(_ req: inout URLRequest, forPassport: Bool = false) {
         req.setValue(BiliAPI.userAgent, forHTTPHeaderField: "User-Agent")
-        req.setValue(BiliAPI.referer, forHTTPHeaderField: "Referer")
-        let cookie = DeviceIdentity.shared.getCookieSync()
-        if !cookie.isEmpty {
-            req.setValue(cookie, forHTTPHeaderField: "Cookie")
+        if !forPassport { req.setValue(BiliAPI.referer, forHTTPHeaderField: "Referer") }
+        var cookie = DeviceIdentity.shared.getCookieSync()
+        // 注入已保存的 SESSDATA（登录态）
+        if let sessdata = UserDefaults.standard.string(forKey: "bili_sessdata"), !sessdata.isEmpty {
+            cookie += "; SESSDATA=\(sessdata)"
         }
+        if !cookie.isEmpty { req.setValue(cookie, forHTTPHeaderField: "Cookie") }
     }
 
     /// 执行请求，可选 -412 重试

@@ -1,21 +1,18 @@
 name: Build iOS IPA
-
 on:
-  workflow_dispatch:           # 手动触发 — GitHub 网页上点按钮
+  workflow_dispatch:
   push:
     branches: [main]
-
 jobs:
   build:
-    runs-on: macos-14          # Apple Silicon, Xcode 15.4+
-
+    runs-on: macos-14
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
       - name: Select Xcode
         run: sudo xcode-select -s /Applications/Xcode_15.4.app
-
+      - name: Generate pbxproj
+        run: python3 gen_pbxproj.py
       - name: Archive (unsigned)
         run: |
           xcodebuild archive \
@@ -28,15 +25,12 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGN_ENTITLEMENTS="" \
             PRODUCT_BUNDLE_IDENTIFIER=com.bililite.app
-
       - name: Package IPA
         run: |
           mkdir -p Payload
           cp -R BiliLite.xcarchive/Products/Applications/BiliLite.app Payload/
           zip -r -y BiliLite-unsigned.ipa Payload
           rm -rf Payload
-          echo "✅ IPA built: $(du -sh BiliLite-unsigned.ipa | cut -f1)"
-
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:

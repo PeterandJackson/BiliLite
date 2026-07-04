@@ -1,21 +1,35 @@
 # ================================================
-#   BiliLite 一步到位
+#   ClothingAR 一步到位
 #   GitHub 云编译 -> 签名 -> IPA 到桌面
 # ================================================
 $ErrorActionPreference = "Continue"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 if (-not $scriptDir) { $scriptDir = Get-Location }
 Set-Location $scriptDir
-$RepoName = "BiliLite"
+$RepoName = "ClothingAR"
 $desktop = [Environment]::GetFolderPath("Desktop")
 
 Write-Host ""
 Write-Host "═══════════════════════════════════════════" -ForegroundColor Cyan
-Write-Host "  BiliLite  一键搞定" -ForegroundColor Cyan
+Write-Host "  ClothingAR  一键搞定" -ForegroundColor Cyan
 Write-Host "  代码 -> GitHub -> 云编译 -> 签名 -> IPA" -ForegroundColor Cyan
 Write-Host "═══════════════════════════════════════════" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "当前目录: $scriptDir" -ForegroundColor Gray
+Write-Host ""
+
+# ==========================================
+# 0. 生成 pbxproj
+# ==========================================
+Write-Host "=== [0/5] 生成 Xcode 工程 ===" -ForegroundColor Yellow
+if (Test-Path ".\gen_pbxproj.py") {
+    python gen_pbxproj.py 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "pbxproj 生成失败，继续尝试..." -ForegroundColor Yellow
+    }
+} else {
+    Write-Host "gen_pbxproj.py 不存在，跳过" -ForegroundColor Yellow
+}
 Write-Host ""
 
 # ==========================================
@@ -71,6 +85,10 @@ if (-not $remotes -or $remotes -notmatch "origin") {
 # 切换到 main 分支
 git branch -M main 2>$null
 
+# 添加所有文件（排除 .gitignore 中的）
+git add -A 2>&1 | Out-Null
+git commit -m "ClothingAR: initial commit" 2>&1 | Out-Null
+
 # 创建或推送
 $exists = $false
 try { $null = gh repo view "$user/$RepoName" 2>&1; $exists = ($LASTEXITCODE -eq 0) } catch { }
@@ -82,7 +100,6 @@ if (-not $exists) {
         Write-Host "gh 创建失败，直接 git push..." -ForegroundColor Yellow
         git push -u origin main 2>&1
         if ($LASTEXITCODE -ne 0) {
-            # 可能仓库已存在但 gh repo view 失败
             git push -u origin main --force 2>&1
         }
     }
@@ -145,7 +162,7 @@ while (-not $done -and $waited -lt $maxWait) {
         if ($conclusion -eq "success") {
             Write-Host ""
             Write-Host "[OK] 编译成功！下载中..." -ForegroundColor Green
-            gh run download $runId --repo "$user/$RepoName" -n "BiliLite-unsigned" --dir . 2>&1
+            gh run download $runId --repo "$user/$RepoName" -n "ClothingAR-unsigned" --dir . 2>&1
             $done = $true
         } elseif ($conclusion -eq "failure") {
             Write-Host ""
@@ -165,22 +182,22 @@ if (-not $done) {
     Write-Host "超时了。手动去下载:" -ForegroundColor Yellow
     Write-Host "  $repoUrl/actions"
     Start-Process "$repoUrl/actions"
-    Read-Host "下载好 BiliLite-unsigned.ipa 放到项目目录后，按回车继续签名"
+    Read-Host "下载好 ClothingAR-unsigned.ipa 放到项目目录后，按回车继续签名"
 }
 
-if (-not (Test-Path ".\BiliLite-unsigned.ipa")) {
-    Write-Host "没找到 BiliLite-unsigned.ipa" -ForegroundColor Red
+if (-not (Test-Path ".\ClothingAR-unsigned.ipa")) {
+    Write-Host "没找到 ClothingAR-unsigned.ipa" -ForegroundColor Red
     Write-Host "请手动下载并放到: $scriptDir"
     Read-Host "放好后按回车"
 }
-if (-not (Test-Path ".\BiliLite-unsigned.ipa")) {
+if (-not (Test-Path ".\ClothingAR-unsigned.ipa")) {
     Write-Host "还是没有. 退出" -ForegroundColor Red
     Read-Host "按回车退出"
     exit 1
 }
 
-$ipaSize = [math]::Round((Get-Item ".\BiliLite-unsigned.ipa").Length / 1MB, 1)
-Write-Host "[OK] BiliLite-unsigned.ipa ($ipaSize MB)" -ForegroundColor Green
+$ipaSize = [math]::Round((Get-Item ".\ClothingAR-unsigned.ipa").Length / 1MB, 1)
+Write-Host "[OK] ClothingAR-unsigned.ipa ($ipaSize MB)" -ForegroundColor Green
 Write-Host ""
 
 # ==========================================
@@ -189,7 +206,7 @@ Write-Host ""
 Write-Host "=== [5/5] 签名 ===" -ForegroundColor Yellow
 Write-Host ""
 
-# 找 zsign，没有则下载
+# 找 zsign
 $zsignPath = ".\zsign.exe"
 if (-not (Test-Path $zsignPath)) {
     Write-Host "下载 zsign 签名工具..."
@@ -263,19 +280,19 @@ $pass = Read-Host "证书密码"
 
 Write-Host ""
 Write-Host "签名中..."
-$result = & $zsignPath -k $p12.FullName -p $pass -m $mp.FullName -o ".\BiliLite.ipa" ".\BiliLite-unsigned.ipa" 2>&1
+$result = & $zsignPath -k $p12.FullName -p $pass -m $mp.FullName -o ".\ClothingAR.ipa" ".\ClothingAR-unsigned.ipa" 2>&1
 Write-Host $result
 
-if ($LASTEXITCODE -eq 0 -and (Test-Path ".\BiliLite.ipa")) {
+if ($LASTEXITCODE -eq 0 -and (Test-Path ".\ClothingAR.ipa")) {
     # 复制到桌面
-    Copy-Item ".\BiliLite.ipa" $desktop -Force
-    $final = [math]::Round((Get-Item ".\BiliLite.ipa").Length / 1MB, 1)
+    Copy-Item ".\ClothingAR.ipa" $desktop -Force
+    $final = [math]::Round((Get-Item ".\ClothingAR.ipa").Length / 1MB, 1)
 
     Write-Host ""
     Write-Host "═══════════════════════════════════════════" -ForegroundColor Green
     Write-Host "            全部完成!" -ForegroundColor Green
     Write-Host ""
-    Write-Host "  BiliLite.ipa  ($final MB)" -ForegroundColor White
+    Write-Host "  ClothingAR.ipa  ($final MB)" -ForegroundColor White
     Write-Host "  ↓ 桌面上 ↓" -ForegroundColor Cyan
     Write-Host "═══════════════════════════════════════════" -ForegroundColor Green
     Write-Host ""

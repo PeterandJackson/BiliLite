@@ -1,6 +1,5 @@
 # 旧项目残留（不管）
 youtube-downloader/
-ClothingAR/
 logs/
 undefined/
 run.ipynb
@@ -19,3 +18,6 @@ DerivedData/
 *.ipa
 *.dSYM.zip
 *.dSYM
+
+# 模型 FBX（太大，不上传 — 只传转换后的 DAE）
+ClothingAR/ClothingAR/Resources/Models/FBX/

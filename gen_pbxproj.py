@@ -39,6 +39,8 @@ FILES = [
     ("CachedAsyncImage.swift",      "Views/Common"),
     ("LoadingView.swift",           "Views/Common"),
     ("ErrorBanner.swift",           "Views/Common"),
+    ("DynamicView.swift",           "Views/Feed"),
+    ("BangumiView.swift",           "Views/Bangumi"),
     ("Constants.swift",             "Utils"),
     ("ViewExtensions.swift",        "Utils"),
     ("KeychainHelper.swift",        "Utils"),
@@ -112,7 +114,7 @@ L("")
 # PBXGroup
 G = {}
 for k in ["ROOT","App","Models","Services","ViewModels","Views","Views/Home",
-           "Views/Detail","Views/Player","Views/Search","Views/Common","Utils","Resources","Products"]:
+           "Views/Detail","Views/Player","Views/Search","Views/Common","Views/Feed","Views/Bangumi","Utils","Resources","Products"]:
     G[k] = fid(4000000 + len(G))
 
 def refs(grp):
@@ -136,9 +138,9 @@ def group(gid, ch, name="", path=""):
 L("/* Begin PBXGroup section */")
 for gn in ["App","Models","Services","ViewModels"]:
     group(G[gn], refs(gn), path=gn)
-for gn in ["Views/Home","Views/Detail","Views/Player","Views/Search","Views/Common"]:
+for gn in ["Views/Home","Views/Detail","Views/Player","Views/Search","Views/Common","Views/Feed","Views/Bangumi"]:
     group(G[gn], refs(gn), path=gn.split("/")[-1])
-group(G["Views"], refs("Views") + [G["Views/Home"],G["Views/Detail"],G["Views/Player"],G["Views/Search"],G["Views/Common"]], name="Views", path="Views")
+group(G["Views"], refs("Views") + [G["Views/Home"],G["Views/Detail"],G["Views/Player"],G["Views/Search"],G["Views/Common"],G["Views/Feed"],G["Views/Bangumi"]], name="Views", path="Views")
 group(G["Utils"], refs("Utils"), path="Utils")
 group(G["Resources"], [FREF["Info.plist"], FREF["Assets.xcassets"]], path="Resources")
 group(G["Products"], [PROD], name="Products")

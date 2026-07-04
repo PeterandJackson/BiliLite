@@ -43,10 +43,11 @@ final class CommentViewModel: ObservableObject {
             } else {
                 comments.append(contentsOf: replyData.replies ?? [])
             }
-            // 使用 API 返回的真正 cursor 值
+            // 使用 API 返回的真正 cursor 值，对比已加载数量与总数判断 hasMore
             if let newCursor = replyData.page?.num {
                 nextCursor = newCursor
-                hasMore = (replyData.replies?.count ?? 0) >= 20
+                let total = replyData.page?.acount ?? 0
+                hasMore = comments.count < total
             } else {
                 hasMore = false
             }

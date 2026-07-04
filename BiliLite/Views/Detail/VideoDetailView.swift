@@ -2,6 +2,7 @@ import SwiftUI
 
 struct VideoDetailView: View {
     let bvid: String
+    @State private var displayedBvid: String
     @StateObject private var detailVM: VideoDetailViewModel
     @StateObject private var playerVM = PlayerViewModel()
     @StateObject private var favVM = FavoritesViewModel()
@@ -10,8 +11,13 @@ struct VideoDetailView: View {
     @State private var showDanmaku = true
     @State private var isLiked = false; @State private var isCoined = false
     @State private var hasLogin: Bool = false
+    @State private var relatedIndex = 0
 
-    init(bvid: String) { self.bvid = bvid; _detailVM = StateObject(wrappedValue: VideoDetailViewModel(bvid: bvid)) }
+    init(bvid: String) {
+        self.bvid = bvid
+        _displayedBvid = State(initialValue: bvid)
+        _detailVM = StateObject(wrappedValue: VideoDetailViewModel(bvid: bvid))
+    }
 
     var body: some View {
         ScrollView {
@@ -37,34 +43,53 @@ struct VideoDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .background(Color(.systemGroupedBackground))
         .task {
+            relatedIndex = 0
             await detailVM.load()
             favVM.loadFavorites(); favVM.loadHistory()
-            hasLogin = UserDefaults.standard.string(forKey: "bili_sessdata")?.isEmpty == false
+            hasLogin = KeychainHelper.read(key: "bili_sessdata")?.isEmpty == false
             if let d = detailVM.detail {
                 favVM.addHistory(Video(aid: d.aid, bvid: d.bvid, title: d.title, pic: d.pic, duration: d.duration, owner: d.owner, stat: d.stat, pubdate: d.pubdate, desc: d.desc, cid: d.currentCID))
             }
             if let c = detailVM.detail?.currentCID {
-                await playerVM.play(bvid: bvid, cid: c)
+                await playerVM.play(bvid: displayedBvid, cid: c)
                 if let it = try? await DanmakuParser.shared.fetchDanmaku(cid: c) { danmakuItems = it }
             }
             playerVM.onVideoEnded = { autoPlayNextIfNeeded() }
         }
+        .onChange(of: displayedBvid) { newBvid in
+            guard newBvid != detailVM.bvid else { return }
+            relatedIndex = 0; selectedPage = 0; danmakuItems = []
+            isLiked = false; isCoined = false
+            await detailVM.reload(bvid: newBvid)
+            if let d = detailVM.detail {
+                favVM.addHistory(Video(aid: d.aid, bvid: d.bvid, title: d.title, pic: d.pic, duration: d.duration, owner: d.owner, stat: d.stat, pubdate: d.pubdate, desc: d.desc, cid: d.currentCID))
+            }
+            if let c = detailVM.detail?.currentCID {
+                await playerVM.play(bvid: newBvid, cid: c)
+                if let it = try? await DanmakuParser.shared.fetchDanmaku(cid: c) { danmakuItems = it }
+            }
+        }
         .onChange(of: selectedPage) { idx in
             guard let pages = detailVM.detail?.pages, idx < pages.count else { return }
             let c = pages[idx].cid
-            Task { await playerVM.play(bvid: bvid, cid: c); if let it = try? await DanmakuParser.shared.fetchDanmaku(cid: c) { danmakuItems = it } }
+            Task { await playerVM.play(bvid: displayedBvid, cid: c); if let it = try? await DanmakuParser.shared.fetchDanmaku(cid: c) { danmakuItems = it } }
+        }
+        .onChange(of: playerVM.isPlaying) { playing in
+            if !playing { relatedIndex = detailVM.relatedVideos.count }  // user paused: stop auto-play progression
         }
         .onDisappear { playerVM.stop() }
     }
 
     private func autoPlayNextIfNeeded() {
-        guard let next = detailVM.relatedVideos.first else { return }
-        Task {
-            await playerVM.play(bvid: next.bvid, cid: next.cid ?? 0)
-            if let it = try? await DanmakuParser.shared.fetchDanmaku(cid: next.cid ?? 0) { danmakuItems = it }
-            let v = Video(aid: next.aid, bvid: next.bvid, title: next.title, pic: next.pic, duration: next.duration, owner: next.owner, stat: next.stat, pubdate: next.pubdate, desc: next.desc, cid: next.cid)
-            favVM.addHistory(v)
-        }
+        let videos = detailVM.relatedVideos
+        guard relatedIndex < videos.count else { return }
+        let next = videos[relatedIndex]
+        relatedIndex += 1
+
+        // Trigger a full page data reload for the new bvid.
+        // This updates detailVM.detail (title, stats, owner, desc),
+        // relatedVideos, and restarts playback with correct danmaku.
+        displayedBvid = next.bvid
     }
 
     // MARK: - 播放器

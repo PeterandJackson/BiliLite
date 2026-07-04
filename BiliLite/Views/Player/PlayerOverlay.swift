@@ -5,6 +5,8 @@ struct PlayerOverlay: View {
     @State private var showControls = true
     @State private var hideTask: Task<Void, Never>?
     @State private var showQualityPicker = false
+    @State private var sliderTime: Double = 0
+    @State private var isDraggingSlider = false
 
     var body: some View {
         GeometryReader { geo in
@@ -59,9 +61,15 @@ struct PlayerOverlay: View {
     // MARK: - 底部控制栏
     private var bottomBar: some View {
         VStack(spacing: 4) {
-            Slider(value: Binding(get: { viewModel.currentTime }, set: { viewModel.seek(to: $0) }),
-                   in: 0...max(viewModel.duration, 1))
-                .tint(.pink)
+            Slider(value: $sliderTime,
+                   in: 0...max(viewModel.duration, 1),
+                   onEditingChanged: { editing in
+                isDraggingSlider = editing
+                if !editing {
+                    viewModel.seek(to: sliderTime)
+                }
+            })
+            .tint(.pink)
             HStack {
                 Text(viewModel.currentTime.durationFormatted).font(.caption.monospacedDigit()).foregroundColor(.white)
                 Spacer()
@@ -81,6 +89,13 @@ struct PlayerOverlay: View {
         }
         .padding(.horizontal, 8).padding(.vertical, 6)
         .background(LinearGradient(colors: [.clear, .black.opacity(0.7)], startPoint: .top, endPoint: .bottom))
+        .onChange(of: viewModel.currentTime) { t in
+            guard !isDraggingSlider else { return }
+            sliderTime = t
+        }
+        .onChange(of: viewModel.duration) { d in
+            sliderTime = viewModel.currentTime
+        }
     }
 
     // MARK: - 质量选择

@@ -17,7 +17,6 @@ struct VideoPlayerView: View {
             }
         }
         .background(Color.black)
-        .onDisappear { vm.stop() }
     }
 }
 

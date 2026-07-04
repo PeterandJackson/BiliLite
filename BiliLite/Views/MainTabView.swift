@@ -63,7 +63,7 @@ struct ProfileView: View {
                             }
                         }
                     }
-                    if let sess = UserDefaults.standard.string(forKey: "bili_sessdata"), !sess.isEmpty {
+                    if let sess = KeychainHelper.read(key: "bili_sessdata"), !sess.isEmpty {
                         Text("已保存登录信息 (Cookie)").font(.caption2).foregroundColor(.green)
                     }
                 }
@@ -125,12 +125,22 @@ struct ProfileView: View {
             .sheet(isPresented: $showLogin) {
                 LoginView()
                     .onDisappear {
-                        hasLogin = UserDefaults.standard.string(forKey: "bili_sessdata")?.isEmpty == false
+                        hasLogin = KeychainHelper.read(key: "bili_sessdata")?.isEmpty == false
                     }
             }
             .onAppear {
-                hasLogin = UserDefaults.standard.string(forKey: "bili_sessdata")?.isEmpty == false
+                hasLogin = KeychainHelper.read(key: "bili_sessdata")?.isEmpty == false
                 favVM.loadFavorites(); favVM.loadHistory()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .biliLoginSuccess)) { _ in
+                hasLogin = true
+                favVM.loadFavorites(); favVM.loadHistory()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .biliFavoritesChanged)) { _ in
+                favVM.loadFavorites()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .biliHistoryChanged)) { _ in
+                favVM.loadHistory()
             }
         }
     }

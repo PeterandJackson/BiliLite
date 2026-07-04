@@ -7,13 +7,22 @@ final class VideoDetailViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
 
-    private let bvid: String
+    private(set) var bvid: String
 
     init(bvid: String) {
         self.bvid = bvid
     }
 
     func load() async {
+        await load(bvid: bvid)
+    }
+
+    func reload(bvid newBvid: String) async {
+        bvid = newBvid
+        await load(bvid: newBvid)
+    }
+
+    private func load(bvid targetBvid: String) async {
         isLoading = true
         errorMessage = nil
 
@@ -21,11 +30,11 @@ final class VideoDetailViewModel: ObservableObject {
             // 并行加载详情 + 相关视频
             async let detailTask: VideoDetail = BiliAPIClient.shared.getWBI(
                 BiliAPI.videoInfo,
-                params: ["bvid": bvid]
+                params: ["bvid": targetBvid]
             )
             async let relatedTask: [Video] = BiliAPIClient.shared.get(
                 BiliAPI.related,
-                params: ["bvid": bvid]
+                params: ["bvid": targetBvid]
             )
 
             let (d, r) = try await (detailTask, relatedTask)

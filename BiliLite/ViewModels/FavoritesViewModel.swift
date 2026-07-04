@@ -39,6 +39,7 @@ final class FavoritesViewModel: ObservableObject {
         if let data = try? JSONEncoder().encode(favorites) {
             UserDefaults.standard.set(data, forKey: favKey)
         }
+        NotificationCenter.default.post(name: .biliFavoritesChanged, object: nil)
     }
 
     // MARK: - 本地历史
@@ -58,6 +59,7 @@ final class FavoritesViewModel: ObservableObject {
         if let data = try? JSONEncoder().encode(history) {
             UserDefaults.standard.set(data, forKey: histKey)
         }
+        NotificationCenter.default.post(name: .biliHistoryChanged, object: nil)
     }
 
     func clearHistory() { history.removeAll(); UserDefaults.standard.removeObject(forKey: histKey) }
@@ -66,9 +68,12 @@ final class FavoritesViewModel: ObservableObject {
 struct HistoryItem: Identifiable, Codable {
     let id: UUID
     let bvid: String
+    let aid: Int
+    let cid: Int?
     let title: String
     let pic: String
     let duration: Int
+    let ownerMid: Int
     let ownerName: String
     let ownerFace: String
     let viewCount: Int
@@ -77,9 +82,12 @@ struct HistoryItem: Identifiable, Codable {
     init(video: Video, timestamp: Date) {
         self.id = UUID()
         self.bvid = video.bvid
+        self.aid = video.aid
+        self.cid = video.cid
         self.title = video.title
         self.pic = video.pic
         self.duration = video.duration
+        self.ownerMid = video.owner.mid
         self.ownerName = video.owner.name
         self.ownerFace = video.owner.face
         self.viewCount = video.stat.view
@@ -87,9 +95,9 @@ struct HistoryItem: Identifiable, Codable {
     }
 
     var video: Video {
-        Video(aid: 0, bvid: bvid, title: title, pic: pic, duration: duration,
-              owner: VideoOwner(mid: 0, name: ownerName, face: ownerFace),
+        Video(aid: aid, bvid: bvid, title: title, pic: pic, duration: duration,
+              owner: VideoOwner(mid: ownerMid, name: ownerName, face: ownerFace),
               stat: VideoStat(view: viewCount, danmaku: 0, reply: 0, favorite: 0, like: 0, coin: 0, share: 0),
-              pubdate: 0, desc: nil, cid: nil)
+              pubdate: 0, desc: nil, cid: cid)
     }
 }

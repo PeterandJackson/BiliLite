@@ -17,7 +17,7 @@ final class SearchViewModel: ObservableObject {
     func loadHotSearches() async {
         do {
             let resp: BiliHotSearchResp = try await BiliAPIClient.shared.get(BiliAPI.hotSearch)
-            hotSearches = resp.data.trending?.list?.map(\.keyword) ?? resp.data.list?.map(\.keyword) ?? []
+            hotSearches = resp.trending?.list?.map(\.keyword) ?? resp.list?.map(\.keyword) ?? []
         } catch {}
     }
 
@@ -35,10 +35,11 @@ final class SearchViewModel: ObservableObject {
     func search(_ keyword: String) async {
         let kw = keyword.trimmingCharacters(in: .whitespaces)
         guard !kw.isEmpty else { return }
+        query = kw
         isLoading = true; errorMessage = nil; hasSearched = true; currentPage = 1
         do {
             let resp: BiliSearchData = try await BiliAPIClient.shared.getWBI(BiliAPI.search, params: ["keyword": kw, "search_type": "video", "page": "1", "order": "click"])
-            results = resp.result?.first(where: { $0.result_type == "video" })?.data ?? []
+            results = resp.result?.first(where: { $0.resultType == "video" })?.data ?? []
             numResults = resp.numResults ?? results.count
             hasMore = results.count >= 20
             addToHistory(kw)
@@ -51,19 +52,18 @@ final class SearchViewModel: ObservableObject {
         isLoading = true; currentPage += 1
         do {
             let resp: BiliSearchData = try await BiliAPIClient.shared.getWBI(BiliAPI.search, params: ["keyword": query.trimmingCharacters(in: .whitespaces), "search_type": "video", "page": "\(currentPage)", "order": "click"])
-            results.append(contentsOf: resp.result?.first(where: { $0.result_type == "video" })?.data ?? [])
-            hasMore = (resp.result?.first(where: { $0.result_type == "video" })?.data?.count ?? 0) >= 20
+            let videoItems = resp.result?.first(where: { $0.resultType == "video" })?.data ?? []
+            results.append(contentsOf: videoItems)
+            hasMore = videoItems.count >= 20
         } catch { errorMessage = error.localizedDescription }
         isLoading = false
     }
 }
 
-// 热搜模型
+// 热搜模型 — executeWithRetry 已提取 B站 code/data 信封，此处直接对映 inner data 的字段
 private struct BiliHotSearchResp: Decodable {
-    let data: HotData
-    struct HotData: Decodable {
-        let trending: HotList?; let list: [HotItem]?
-        struct HotList: Decodable { let list: [HotItem]? }
-    }
+    let trending: HotList?
+    let list: [HotItem]?
+    struct HotList: Decodable { let list: [HotItem]? }
     struct HotItem: Decodable { let keyword: String }
 }

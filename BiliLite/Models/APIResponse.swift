@@ -56,6 +56,6 @@ struct BiliSearchData: Decodable {
 }
 
 struct BiliSearchBlock: Decodable {
-    let result_type: String?
+    let resultType: String?
     let data: [BiliSearchVideoItem]?
 }

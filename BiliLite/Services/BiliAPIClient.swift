@@ -30,11 +30,48 @@ actor BiliAPIClient {
 
     /// GET 需要 WBI 签名的接口
     func getWBI<T: Decodable>(_ path: String, params: [String: String] = [:]) async throws -> T {
+        try await getWBIImpl(path, params: params, allowRetry: true)
+    }
+
+    /// WBI GET 的内部实现：allowRetry=true 时，-412 会刷新密钥并用原始 params 重新签名重试
+    private func getWBIImpl<T: Decodable>(_ path: String, params: [String: String], allowRetry: Bool) async throws -> T {
         let signed = try await WBISigner.shared.sign(params)
         let url = try buildURL(path, params: signed)
         var req = URLRequest(url: url)
         injectHeaders(&req)
-        return try await executeWithRetry(req, allowRetry: true)
+
+        let (data, resp) = try await session.data(for: req)
+
+        if let http = resp as? HTTPURLResponse, http.statusCode >= 400 {
+            throw BiliError.httpError(http.statusCode)
+        }
+
+        do {
+            let response = try decoder.decode(BiliResponse<T>.self, from: data)
+            if response.code == 0, let d = response.data {
+                return d
+            }
+            if response.code == -412, allowRetry {
+                // 刷新密钥，用原始 params 重新签名，彻底重建 URL
+                try await WBISigner.shared.refreshKeys()
+                return try await getWBIImpl(path, params: params, allowRetry: false)
+            }
+            if response.code == -799 || response.code == -509 {
+                throw BiliError.rateLimited
+            }
+            throw BiliError.apiError(code: response.code, message: response.message)
+        } catch let e as BiliError {
+            throw e
+        } catch {
+            // Decoding 失败，尝试直接解析原始 T
+        }
+
+        // 如果 BiliResponse 解析失败，尝试直接解析为 T
+        do {
+            return try decoder.decode(T.self, from: data)
+        } catch {
+            throw BiliError.decodeFailed
+        }
     }
 
     /// POST 请求（用于登录等）
@@ -47,7 +84,7 @@ actor BiliAPIClient {
         // 构造 body
         var comps = URLComponents(); comps.queryItems = params.map { URLQueryItem(name: $0.key, value: $0.value) }
         req.httpBody = comps.query?.data(using: .utf8)
-        return try await executeWithRetry(req, allowRetry: true)
+        return try await executeWithRetry(req)
     }
 
     /// 直接获取原始 Data（用于图片下载等）
@@ -84,15 +121,15 @@ actor BiliAPIClient {
         req.setValue(BiliAPI.userAgent, forHTTPHeaderField: "User-Agent")
         if !forPassport { req.setValue(BiliAPI.referer, forHTTPHeaderField: "Referer") }
         var cookie = DeviceIdentity.shared.getCookieSync()
-        // 注入已保存的 SESSDATA（登录态）
-        if let sessdata = UserDefaults.standard.string(forKey: "bili_sessdata"), !sessdata.isEmpty {
+        // Inject saved SESSDATA (login session) from Keychain — encrypted at rest
+        if let sessdata = KeychainHelper.read(key: "bili_sessdata"), !sessdata.isEmpty {
             cookie += "; SESSDATA=\(sessdata)"
         }
         if !cookie.isEmpty { req.setValue(cookie, forHTTPHeaderField: "Cookie") }
     }
 
-    /// 执行请求，可选 -412 重试
-    private func executeWithRetry<T: Decodable>(_ req: URLRequest, allowRetry: Bool = false) async throws -> T {
+    /// 执行请求，解析 BiliResponse 并处理通用错误码
+    private func executeWithRetry<T: Decodable>(_ req: URLRequest) async throws -> T {
         let (data, resp) = try await session.data(for: req)
 
         if let http = resp as? HTTPURLResponse, http.statusCode >= 400 {
@@ -104,13 +141,6 @@ actor BiliAPIClient {
             let response = try decoder.decode(BiliResponse<T>.self, from: data)
             if response.code == 0, let d = response.data {
                 return d
-            }
-            if response.code == -412, allowRetry {
-                // 刷新密钥后重试一次
-                try await WBISigner.shared.refreshKeys()
-                var retryReq = req
-                injectHeaders(&retryReq)
-                return try await executeWithRetry(retryReq, allowRetry: false)
             }
             if response.code == -799 || response.code == -509 {
                 throw BiliError.rateLimited

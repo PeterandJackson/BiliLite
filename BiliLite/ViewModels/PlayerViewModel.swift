@@ -31,20 +31,22 @@ final class PlayerViewModel: ObservableObject {
             )
             guard let url = stream.firstURL else { errorMessage = "无法获取播放地址"; isLoading = false; return }
             if let a = stream.acceptQuality { availableQualities = a.compactMap(BiliQuality.init) }
-            setupPlayer(with: url)
-            if savedTime > 1 { seek(to: savedTime) }
+            setupPlayer(with: url, startTime: savedTime > 1 ? savedTime : nil)
         } catch { errorMessage = error.localizedDescription }
         isLoading = false
     }
 
     func switchQuality(_ q: BiliQuality) async { currentQuality = q; await play(bvid: currentBvid, cid: currentCid, quality: q) }
 
-    private func setupPlayer(with url: URL) {
+    private func setupPlayer(with url: URL, startTime: Double? = nil) {
         removeTimeObserver()
         if let o = endObserver { NotificationCenter.default.removeObserver(o); endObserver = nil }
         let asset = AVURLAsset(url: url, options: ["AVURLAssetHTTPHeaderFieldsKey": ["Referer": BiliAPI.referer, "User-Agent": BiliAPI.userAgent]])
         let item = AVPlayerItem(asset: asset)
         player.replaceCurrentItem(with: item)
+        if let start = startTime {
+            player.seek(to: CMTime(seconds: start, preferredTimescale: CMTimeScale(NSEC_PER_SEC)))
+        }
         timeObserver = player.addPeriodicTimeObserver(forInterval: CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC)), queue: .main) { [weak self] t in
             guard let s = self else { return }
             s.currentTime = t.seconds

@@ -22,7 +22,7 @@ final class LiveViewModel: ObservableObject {
         isLoadingList = true
         do {
             let resp: LiveListResp = try await BiliAPIClient.shared.get("/xlive/web-interface/v2/index/getTopList", params: ["platform": "web"])
-            rooms = resp.data.rooms ?? []
+            rooms = resp.rooms ?? []
         } catch {}
         isLoadingList = false
     }
@@ -37,11 +37,10 @@ final class LiveViewModel: ObservableObject {
                 "/xlive/web-room/v1/index/getInfoByRoom",
                 params: ["room_id": "\(roomId)"]
             )
-            let info = roomInfo.data.room_info
-            liveStatus = info.live_status
-            roomTitle = info.title ?? "直播间"
-            ownerName = roomInfo.data.anchor_info.base_info.uname ?? ""
-            onlineCount = info.online ?? 0
+            liveStatus = roomInfo.room_info.live_status
+            roomTitle = roomInfo.room_info.title ?? "直播间"
+            ownerName = roomInfo.anchor_info.base_info.uname ?? ""
+            onlineCount = roomInfo.room_info.online ?? 0
 
             guard liveStatus == 1 else {
                 errorMessage = "主播不在直播中"; isLoading = false; return
@@ -52,7 +51,7 @@ final class LiveViewModel: ObservableObject {
                 "/xlive/web-room/v2/index/getRoomPlayInfo",
                 params: ["room_id": "\(roomId)", "protocol": "0,1", "format": "0,1,2", "codec": "0,1"]
             )
-            guard let firstStream = playURL.data.playurl_info?.playurl?.stream?.first,
+            guard let firstStream = playURL.playurl_info?.playurl?.stream?.first,
                   let firstFormat = firstStream.format?.first,
                   let firstCodec = firstFormat.codec?.first,
                   let baseURL = firstCodec.base_url,
@@ -96,12 +95,13 @@ final class LiveViewModel: ObservableObject {
         player?.pause(); player?.replaceCurrentItem(with: nil); isPlaying = false
     }
 
-    /// 加载直播弹幕（B站直播弹幕走 WebSocket — 这里走 HTTP 轮询作为简化版）
+    /// 加载直播弹幕
+    /// B站直播弹幕使用 WebSocket 协议（wss://broadcastlv.chat.bilibili.com/sub），
+    /// 而非视频弹幕的 HTTP XML API（/x/v1/dm/list.so）。
+    /// WebSocket 实时弹幕尚未实现，将在后续版本添加。
     func fetchDanmaku(roomId: Int) async {
-        do {
-            let items = try await DanmakuParser.shared.fetchDanmaku(cid: roomId)
-            danmakuItems = items
-        } catch {}
+        // Live danmaku requires WebSocket (B站 live chat protocol)
+        // Not implemented yet — will add in future version
     }
 }
 
@@ -126,46 +126,40 @@ struct LiveRoomItem: Identifiable, Decodable {
     var id: Int { roomid }
 }
 private struct LiveListResp: Decodable {
-    let data: LiveListData; struct LiveListData: Decodable { let rooms: [LiveRoomItem]? }
+    let rooms: [LiveRoomItem]?
 }
 
 // MARK: - 直播响应模型
 
 private struct LiveRoomResponse: Decodable {
-    let data: LiveRoomData
-    struct LiveRoomData: Decodable {
-        let room_info: LiveRoomInfo
-        let anchor_info: LiveAnchorInfo
-        struct LiveRoomInfo: Decodable {
-            let live_status: Int
-            let title: String?
-            let online: Int?
-        }
-        struct LiveAnchorInfo: Decodable {
-            let base_info: LiveAnchorBase
-            struct LiveAnchorBase: Decodable {
-                let uname: String?
-            }
+    let room_info: LiveRoomInfo
+    let anchor_info: LiveAnchorInfo
+    struct LiveRoomInfo: Decodable {
+        let live_status: Int
+        let title: String?
+        let online: Int?
+    }
+    struct LiveAnchorInfo: Decodable {
+        let base_info: LiveAnchorBase
+        struct LiveAnchorBase: Decodable {
+            let uname: String?
         }
     }
 }
 
 private struct LivePlayResponse: Decodable {
-    let data: LivePlayData
-    struct LivePlayData: Decodable {
-        let playurl_info: PlayURLInfo?
-        struct PlayURLInfo: Decodable {
-            let playurl: PlayURL?
-            struct PlayURL: Decodable {
-                let stream: [StreamInfo]?
-                struct StreamInfo: Decodable {
-                    let format: [FormatInfo]?
-                    struct FormatInfo: Decodable {
-                        let codec: [CodecInfo]?
-                        struct CodecInfo: Decodable {
-                            let base_url: String?
-                            let accept_qn: [Int]?
-                        }
+    let playurl_info: PlayURLInfo?
+    struct PlayURLInfo: Decodable {
+        let playurl: PlayURL?
+        struct PlayURL: Decodable {
+            let stream: [StreamInfo]?
+            struct StreamInfo: Decodable {
+                let format: [FormatInfo]?
+                struct FormatInfo: Decodable {
+                    let codec: [CodecInfo]?
+                    struct CodecInfo: Decodable {
+                        let base_url: String?
+                        let accept_qn: [Int]?
                     }
                 }
             }

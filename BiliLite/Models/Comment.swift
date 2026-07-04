@@ -20,7 +20,7 @@ struct Comment: Identifiable, Decodable {
 }
 
 struct CommentUser: Decodable {
-    let mid: String         // B站 API 返回字符串
+    let mid: Int
     let uname: String
     let avatar: String
     let levelInfo: CommentLevelInfo?

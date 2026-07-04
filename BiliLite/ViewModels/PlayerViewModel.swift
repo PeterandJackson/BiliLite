@@ -14,10 +14,12 @@ final class PlayerViewModel: ObservableObject {
     @Published var isFullscreen = false
 
     private var timeObserver: Any?
+    private var endObserver: NSObjectProtocol?
     var currentBvid: String = ""
     var currentCid: Int = 0
 
     func play(bvid: String, cid: Int, quality: BiliQuality = .p480) async {
+        let savedTime = currentTime
         isLoading = true
         errorMessage = nil
         currentBvid = bvid
@@ -39,6 +41,7 @@ final class PlayerViewModel: ObservableObject {
                 availableQualities = accepted.compactMap { BiliQuality(rawValue: $0) }
             }
             setupPlayer(with: url)
+            if savedTime > 1 { seek(to: savedTime) }
         } catch { errorMessage = error.localizedDescription }
         isLoading = false
     }
@@ -50,6 +53,8 @@ final class PlayerViewModel: ObservableObject {
 
     private func setupPlayer(with url: URL) {
         removeTimeObserver()
+        if let old = endObserver { NotificationCenter.default.removeObserver(old); endObserver = nil }
+
         let asset = AVURLAsset(url: url, options: [
             "AVURLAssetHTTPHeaderFieldsKey": [
                 "Referer": BiliAPI.referer,
@@ -67,7 +72,7 @@ final class PlayerViewModel: ObservableObject {
                 self.duration = d.seconds
             }
         }
-        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: item, queue: .main) { [weak self] _ in
+        endObserver = NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: item, queue: .main) { [weak self] _ in
             self?.isPlaying = false
         }
         player.play()
@@ -89,6 +94,7 @@ final class PlayerViewModel: ObservableObject {
 
     func stop() {
         removeTimeObserver()
+        if let old = endObserver { NotificationCenter.default.removeObserver(old); endObserver = nil }
         player.pause()
         player.replaceCurrentItem(with: nil)
         isPlaying = false

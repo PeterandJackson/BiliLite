@@ -41,7 +41,13 @@ struct VideoDetailView: View {
         .background(Color(.systemGroupedBackground))
         .task {
             await detailVM.load()
-            favVM.loadFavorites()
+            favVM.loadFavorites(); favVM.loadHistory()
+            if let detail = detailVM.detail {
+                let v = Video(aid: detail.aid, bvid: detail.bvid, title: detail.title, pic: detail.pic,
+                               duration: detail.duration, owner: detail.owner, stat: detail.stat,
+                               pubdate: detail.pubdate, desc: detail.desc, cid: detail.currentCID)
+                favVM.addHistory(v)
+            }
             if let cid = detailVM.detail?.currentCID {
                 await playerVM.play(bvid: bvid, cid: cid)
                 if let items = try? await DanmakuParser.shared.fetchDanmaku(cid: cid) {

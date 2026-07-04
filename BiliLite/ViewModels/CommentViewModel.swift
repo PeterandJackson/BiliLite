@@ -11,6 +11,7 @@ final class CommentViewModel: ObservableObject {
 
     private let oid: Int       // 视频 aid
     private var nextCursor = 0
+    private var isFirstLoad = true
     private var hasMore = true
 
     init(oid: Int) {
@@ -27,21 +28,28 @@ final class CommentViewModel: ObservableObject {
                 params: [
                     "oid": "\(oid)",
                     "type": "1",
-                    "mode": "3",        // 热度排序
+                    "mode": "3",
                     "next": "\(nextCursor)",
                     "ps": "20"
                 ]
             )
 
-            if nextCursor == 0 {
+            if isFirstLoad {
                 comments = replyData.replies ?? []
                 topComment = replyData.top
                 upperName = replyData.upper?.name
                 totalCount = replyData.page?.acount ?? 0
+                isFirstLoad = false
             } else {
                 comments.append(contentsOf: replyData.replies ?? [])
             }
-            hasMore = (replyData.replies?.count ?? 0) >= 20
+            // 使用 API 返回的真正 cursor 值
+            if let newCursor = replyData.page?.num {
+                nextCursor = newCursor
+                hasMore = (replyData.replies?.count ?? 0) >= 20
+            } else {
+                hasMore = false
+            }
         } catch {
             errorMessage = error.localizedDescription
         }
@@ -53,7 +61,6 @@ final class CommentViewModel: ObservableObject {
         guard hasMore, !isLoading else { return }
         if let index = comments.firstIndex(where: { $0.id == comment.id }),
            index >= comments.count - 3 {
-            nextCursor += 1
             await loadComments()
         }
     }

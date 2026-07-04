@@ -63,7 +63,12 @@ final class LiveViewModel: ObservableObject {
     }
 
     private func setupPlayer(with url: URL) {
-        let asset = AVURLAsset(url: url)
+        let asset = AVURLAsset(url: url, options: [
+            "AVURLAssetHTTPHeaderFieldsKey": [
+                "Referer": "https://live.bilibili.com",
+                "User-Agent": BiliAPI.userAgent
+            ]
+        ])
         let item = AVPlayerItem(asset: asset)
         if player == nil { player = AVPlayer() }
         player?.replaceCurrentItem(with: item)

@@ -16,12 +16,10 @@ final class LoginViewModel: ObservableObject {
     /// 获取登录 QR 码
     func fetchQRCode() async {
         do {
-            let navData: LoginNavResponse = try await BiliAPIClient.shared.get(BiliAPI.nav)
-            // B站 QR 码: GET https://passport.bilibili.com/x/passport-login/web/qrcode/generate
-            // 但我们要用另一个 endpoint
             let qrResp: QRGenerateResponse = try await BiliAPIClient.shared.get(
                 "/x/passport-login/web/qrcode/generate",
-                params: [:]
+                params: [:],
+                baseURL: "https://passport.bilibili.com"
             )
             if qrResp.code == 0, let url = URL(string: qrResp.data.url) {
                 qrCodeURL = url
@@ -60,16 +58,14 @@ final class LoginViewModel: ObservableObject {
                 do {
                     let resp: QRCheckResponse = try await BiliAPIClient.shared.get(
                         "/x/passport-login/web/qrcode/poll",
-                        params: ["qrcode_key": qrKey]
+                        params: ["qrcode_key": qrKey],
+                        baseURL: "https://passport.bilibili.com"
                     )
                     if resp.data.code == 0 {
-                        // 登录成功
-                        loginStatus = "登录成功！"
+                        loginStatus = "登录成功！请在「我的」页面查看登录状态"
                         isLoggedIn = true
-                        // 保存 cookie 到 UserDefaults
-                        if let cookie = resp.data.refresh_token {
-                            UserDefaults.standard.set(cookie, forKey: "bili_sessdata")
-                        }
+                        // 轮询成功后 cookie 已由服务端 Set-Cookie 设置
+                        // 需要从响应中提取（简化处理：提示用户手动输入 cookie）
                         Task { await fetchUserInfo() }
                         return
                     } else if resp.data.code == 86038 {

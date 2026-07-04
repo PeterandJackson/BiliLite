@@ -20,9 +20,9 @@ struct DanmakuView: View {
         }
     }
 
-    /// 当前屏幕上可见的弹幕
+    /// 当前屏幕上可见的弹幕（含过渡区间）
     private var visibleItems: [DanmakuItem] {
-        items.filter { abs($0.time - currentTime) < 5.0 }
+        items.filter { $0.time >= currentTime - 8.0 && $0.time <= currentTime + 2.0 }
     }
 
     @ViewBuilder

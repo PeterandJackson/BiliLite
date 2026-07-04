@@ -22,7 +22,7 @@ actor DanmakuParser {
     func fetchDanmaku(cid: Int) async throws -> [DanmakuItem] {
         if let cached = cache[cid] { return cached }
 
-        let url = URL(string: "https://api.bilibili.com/x/v1/dm/list.so?oid=\(cid)")!
+        guard let url = URL(string: "https://api.bilibili.com/x/v1/dm/list.so?oid=\(cid)") else { return [] }
         var req = URLRequest(url: url)
         req.setValue(BiliAPI.userAgent, forHTTPHeaderField: "User-Agent")
         req.setValue(BiliAPI.referer, forHTTPHeaderField: "Referer")

@@ -49,7 +49,8 @@ final class SearchViewModel: ObservableObject {
                 ]
             )
 
-            results = response.result?.first?.data ?? []
+            // 只取 video 类型的结果块
+            results = response.result?.first(where: { $0.result_type == "video" })?.data ?? []
             numResults = response.numResults ?? results.count
             hasMore = results.count >= 20
         } catch {
@@ -75,7 +76,7 @@ final class SearchViewModel: ObservableObject {
                 ]
             )
 
-            let new = response.result?.first?.data ?? []
+            let new = response.result?.first(where: { $0.result_type == "video" })?.data ?? []
             results.append(contentsOf: new)
             hasMore = new.count >= 20
         } catch {

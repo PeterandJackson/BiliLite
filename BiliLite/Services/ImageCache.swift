@@ -138,10 +138,11 @@ actor ImageCache {
 
     /// 降采样图片到目标宽度
     private func downsample(data: Data, to width: CGFloat) -> UIImage? {
+        let maxPixel = width * 3.0  // @3x for iPhone X
         let options: [CFString: Any] = [
             kCGImageSourceCreateThumbnailFromImageAlways: true,
             kCGImageSourceCreateThumbnailWithTransform: true,
-            kCGImageSourceThumbnailMaxPixelSize: width * UIScreen.main.scale
+            kCGImageSourceThumbnailMaxPixelSize: maxPixel
         ]
         guard let source = CGImageSourceCreateWithData(data as CFData, nil),
               let cg = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else {

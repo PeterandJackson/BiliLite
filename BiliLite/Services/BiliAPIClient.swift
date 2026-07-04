@@ -40,10 +40,9 @@ actor BiliAPIClient {
     /// 直接获取原始 Data（用于图片下载等）
     func getData(_ url: URL) async throws -> Data {
         var req = URLRequest(url: url)
-        req.setValue(BiliAPI.referer, forHTTPHeaderField: "Referer")
         req.setValue(BiliAPI.userAgent, forHTTPHeaderField: "User-Agent")
-        // 视频 CDN 必须带 Referer
-        if !(url.host?.contains("bilibili.com") == true) {
+        // B站 CDN 必须带 Referer，其他域名不需要
+        if url.host?.contains("bilibili.com") == true {
             req.setValue(BiliAPI.referer, forHTTPHeaderField: "Referer")
         }
 

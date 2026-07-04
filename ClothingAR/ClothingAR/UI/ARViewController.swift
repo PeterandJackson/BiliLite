@@ -175,9 +175,8 @@ final class ARViewController: UIViewController {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self else { return }
 
-            // 尝试加载 FBX（通过 ModelIO 转 SCNScene）
-            // 关键：先用 FBX 目录下的文件
-            guard let result = ModelLoader.load(named: "THIN WELD", extension: "fbx") else {
+            // 加载 Mixamo 绑骨后的 GLB 文件
+            guard let result = ModelLoader.load(named: "THIN_WELD_DECIMATED_new", extension: "glb") else {
                 DispatchQueue.main.async {
                     self.showModelLoadError()
                 }
@@ -237,7 +236,7 @@ final class ARViewController: UIViewController {
     private func showModelLoadError() {
         let alert = UIAlertController(
             title: "模型加载失败",
-            message: "未找到服装模型文件。\n\n请确认：\n1. FBX 已转换为 DAE 格式\n2. DAE 文件已放入 Resources/Models/ 目录\n3. 文件名为 THIN WELD.dae",
+            message: "未找到服装模型文件。\n\n请确认：\n1. Mixamo 绑骨后的 GLB 文件已放入 Resources/Models/\n2. 文件名为 THIN_WELD_DECIMATED_new.glb",
             preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: "确定", style: .default))

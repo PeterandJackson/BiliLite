@@ -252,6 +252,35 @@ final class ModelLoader {
         )
     }
 
+    // MARK: - GLB Loading
+
+    /// 使用 ModelIO 加载 glTF/GLB 并转换为 SCNScene
+    private static func loadGLBAsset(url: URL) -> SCNScene? {
+        // MDLAsset 加载 GLB
+        let asset = MDLAsset(url: url)
+        guard asset.count > 0 else {
+            print("[ModelLoader] MDLAsset 加载 GLB 返回空")
+            return nil
+        }
+
+        // 转换为 SCNScene
+        let scene = SCNScene(mdlAsset: asset)
+
+        // 打印骨骼信息
+        print("[ModelLoader] GLB loaded via ModelIO, root children: \(scene.rootNode.childNodes.count)")
+        for (i, child) in scene.rootNode.childNodes.enumerated() {
+            print("[ModelLoader]   child[\(i)]: \(child.name ?? "?") type: \(type(of: child))")
+            if let skinner = child.skinner {
+                print("[ModelLoader]     skinner bones: \(skinner.bones.count)")
+                for bone in skinner.bones.prefix(5) {
+                    print("[ModelLoader]       bone: \(bone.name ?? "?")")
+                }
+            }
+        }
+
+        return scene
+    }
+
     // MARK: - Helpers
 
     private static func collectNodes(from node: SCNNode, into all: inout [SCNNode]) {

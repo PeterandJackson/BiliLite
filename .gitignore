@@ -19,5 +19,7 @@ DerivedData/
 *.dSYM.zip
 *.dSYM
 
-# 模型 FBX（太大，不上传 — 只传转换后的 DAE）
+# 模型 FBX（太大，不上传 — 只传转换后的 GLB）
 ClothingAR/ClothingAR/Resources/Models/FBX/
+# 贴图太大，不上传（16MB x 16张 = 256MB）
+ClothingAR/ClothingAR/Resources/Models/Textures/

@@ -319,7 +319,6 @@ cfg(fid(11000002), "Release", [
 
 # Target Debug
 cfg(fid(11000003), "Debug", [
-    "ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;",
     "CODE_SIGN_STYLE = Automatic;",
     "CURRENT_PROJECT_VERSION = 1;",
     "INFOPLIST_FILE = \"\";",
@@ -339,7 +338,6 @@ cfg(fid(11000003), "Debug", [
 
 # Target Release
 cfg(fid(11000004), "Release", [
-    "ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;",
     "CODE_SIGN_STYLE = Automatic;",
     "CURRENT_PROJECT_VERSION = 1;",
     "INFOPLIST_FILE = \"\";",

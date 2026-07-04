@@ -94,11 +94,10 @@ struct PlayerOverlay: View {
 
     private func autoHideControls() {
         hideTask?.cancel()
-        hideTask = Task { @MainActor [weak self] in
+        hideTask = Task { @MainActor in
             try? await Task.sleep(nanoseconds: 3_000_000_000)
-            guard let self else { return }
             withAnimation(.easeInOut(duration: 0.3)) {
-                self.showControls = false
+                showControls = false
             }
         }
     }

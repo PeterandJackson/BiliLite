@@ -23,7 +23,7 @@ struct Video: Identifiable, Hashable, Decodable {
 }
 
 /// UP主简要信息
-struct VideoOwner: Decodable {
+struct VideoOwner: Decodable, Hashable {
     let mid: Int
     let name: String
     let face: String
@@ -34,7 +34,7 @@ struct VideoOwner: Decodable {
 }
 
 /// 视频统计数据
-struct VideoStat: Decodable {
+struct VideoStat: Decodable, Hashable {
     let view: Int
     let danmaku: Int
     let reply: Int

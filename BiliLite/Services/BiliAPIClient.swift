@@ -37,27 +37,13 @@ actor BiliAPIClient {
         return try await executeWithRetry(req, allowRetry: true)
     }
 
-    /// 解析带 BiliListWrapper 的列表接口
-    func getWBIList<T: Decodable>(_ path: String, params: [String: String] = [:]) async throws -> [T] {
-        let signed = try await WBISigner.shared.sign(params)
-        let url = try buildURL(path, params: signed)
-        var req = URLRequest(url: url)
-        injectHeaders(&req)
-
-        let wrapper: BiliListWrapper<T> = try await executeWithRetry(req, allowRetry: true)
-        if let items = wrapper.items {
-            return items
-        }
-        return []
-    }
-
     /// 直接获取原始 Data（用于图片下载等）
     func getData(_ url: URL) async throws -> Data {
         var req = URLRequest(url: url)
         req.setValue(BiliAPI.referer, forHTTPHeaderField: "Referer")
         req.setValue(BiliAPI.userAgent, forHTTPHeaderField: "User-Agent")
         // 视频 CDN 必须带 Referer
-        if !url.host?.contains("bilibili.com") ?? true {
+        if !(url.host?.contains("bilibili.com") == true) {
             req.setValue(BiliAPI.referer, forHTTPHeaderField: "Referer")
         }
 

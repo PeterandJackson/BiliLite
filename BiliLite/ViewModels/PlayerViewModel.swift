@@ -133,9 +133,11 @@ final class PlayerViewModel: ObservableObject {
     }
 
     deinit {
-        // AVPlayer time observer cleanup — called from non-isolated context OK
-        if let obs = timeObserver, let p = player {
-            p.removeTimeObserver(obs)
+        if let obs = timeObserver {
+            Task { @MainActor [p = player] in
+                p?.removeTimeObserver(obs)
+            }
         }
+    }
     }
 }

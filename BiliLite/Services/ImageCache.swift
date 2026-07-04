@@ -32,7 +32,7 @@ actor ImageCache {
         let key = cacheKey(url)
 
         // 1. 内存
-        if let img = memoryCache.object(forKey: key) {
+        if let img = memoryCache.object(forKey: key as NSString) {
             return img
         }
 
@@ -79,7 +79,7 @@ actor ImageCache {
         guard let img = downsample(data: data, to: targetWidth) else { return }
 
         let cost = Int(img.size.width * img.size.height * 4)
-        memoryCache.setObject(img, forKey: key, cost: cost)
+        memoryCache.setObject(img, forKey: key as NSString, cost: cost)
 
         let fileURL = cacheDir.appendingPathComponent(key)
         Task.detached(priority: .background) { [fileURL, fileManager] in

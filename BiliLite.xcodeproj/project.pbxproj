@@ -1,352 +1,328 @@
 // !$*UTF8*$!
-{
-	archiveVersion = 1;
-	classes = {
-	};
-	objectVersion = 56;
-	objects = {
-
 /* Begin PBXBuildFile section */
-		AAAA00010000000000000001 /* BiliLiteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000001 /* BiliLiteApp.swift */; };
-		AAAA00010000000000000002 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000002 /* APIResponse.swift */; };
-		AAAA00010000000000000003 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000003 /* Video.swift */; };
-		AAAA00010000000000000004 /* VideoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000004 /* VideoDetail.swift */; };
-		AAAA00010000000000000005 /* VideoStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000005 /* VideoStream.swift */; };
-		AAAA00010000000000000006 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000006 /* Comment.swift */; };
-		AAAA00010000000000000007 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000007 /* SearchResult.swift */; };
-		AAAA00010000000000000008 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000008 /* UserProfile.swift */; };
-		AAAA00010000000000000009 /* BiliAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000009 /* BiliAPIClient.swift */; };
-		AAAA0001000000000000000A /* WBISigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000000A /* WBISigner.swift */; };
-		AAAA0001000000000000000B /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000000B /* DeviceIdentity.swift */; };
-		AAAA0001000000000000000C /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000000C /* ImageCache.swift */; };
-		AAAA0001000000000000000D /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000000D /* HomeViewModel.swift */; };
-		AAAA0001000000000000000E /* VideoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000000E /* VideoDetailViewModel.swift */; };
-		AAAA0001000000000000000F /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000000F /* PlayerViewModel.swift */; };
-		AAAA00010000000000000010 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000010 /* SearchViewModel.swift */; };
-		AAAA00010000000000000011 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000011 /* CommentViewModel.swift */; };
-		AAAA00010000000000000012 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000012 /* MainTabView.swift */; };
-		AAAA00010000000000000013 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000013 /* HomeView.swift */; };
-		AAAA00010000000000000014 /* VideoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000014 /* VideoCard.swift */; };
-		AAAA00010000000000000015 /* VideoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000015 /* VideoDetailView.swift */; };
-		AAAA00010000000000000016 /* CommentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000016 /* CommentListView.swift */; };
-		AAAA00010000000000000017 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000017 /* VideoPlayerView.swift */; };
-		AAAA00010000000000000018 /* PlayerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000018 /* PlayerOverlay.swift */; };
-		AAAA00010000000000000019 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA00020000000000000019 /* SearchView.swift */; };
-		AAAA0001000000000000001A /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000001A /* CachedAsyncImage.swift */; };
-		AAAA0001000000000000001B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000001B /* LoadingView.swift */; };
-		AAAA0001000000000000001C /* ErrorBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000001C /* ErrorBanner.swift */; };
-		AAAA0001000000000000001D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000001D /* Constants.swift */; };
-		AAAA0001000000000000001E /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000001E /* View+Extensions.swift */; };
-		AAAA0001000000000000001F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AAAA0002000000000000001F /* Assets.xcassets */; };
+		0000000000000000000F4241 /* BiliLiteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8481 /* BiliLiteApp.swift */; };
+		0000000000000000000F4242 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8482 /* APIResponse.swift */; };
+		0000000000000000000F4243 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8483 /* Video.swift */; };
+		0000000000000000000F4244 /* VideoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8484 /* VideoDetail.swift */; };
+		0000000000000000000F4245 /* VideoStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8485 /* VideoStream.swift */; };
+		0000000000000000000F4246 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8486 /* Comment.swift */; };
+		0000000000000000000F4247 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8487 /* SearchResult.swift */; };
+		0000000000000000000F4248 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8488 /* UserProfile.swift */; };
+		0000000000000000000F4249 /* BiliAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8489 /* BiliAPIClient.swift */; };
+		0000000000000000000F424A /* WBISigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848A /* WBISigner.swift */; };
+		0000000000000000000F424B /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848B /* DeviceIdentity.swift */; };
+		0000000000000000000F424C /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848C /* ImageCache.swift */; };
+		0000000000000000000F424D /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848D /* HomeViewModel.swift */; };
+		0000000000000000000F424E /* VideoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848E /* VideoDetailViewModel.swift */; };
+		0000000000000000000F424F /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848F /* PlayerViewModel.swift */; };
+		0000000000000000000F4250 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8490 /* SearchViewModel.swift */; };
+		0000000000000000000F4251 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8491 /* CommentViewModel.swift */; };
+		0000000000000000000F4252 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8492 /* MainTabView.swift */; };
+		0000000000000000000F4253 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8493 /* HomeView.swift */; };
+		0000000000000000000F4254 /* VideoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8494 /* VideoCard.swift */; };
+		0000000000000000000F4255 /* VideoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8495 /* VideoDetailView.swift */; };
+		0000000000000000000F4256 /* CommentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8496 /* CommentListView.swift */; };
+		0000000000000000000F4257 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8497 /* VideoPlayerView.swift */; };
+		0000000000000000000F4258 /* PlayerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8498 /* PlayerOverlay.swift */; };
+		0000000000000000000F4259 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8499 /* SearchView.swift */; };
+		0000000000000000000F425A /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849A /* CachedAsyncImage.swift */; };
+		0000000000000000000F425B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849B /* LoadingView.swift */; };
+		0000000000000000000F425C /* ErrorBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849C /* ErrorBanner.swift */; };
+		0000000000000000000F425D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849D /* Constants.swift */; };
+		0000000000000000000F425E /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849E /* View+Extensions.swift */; };
+		0000000000000000000F425F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849F /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		AAAA00020000000000000001 /* BiliLiteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiliLiteApp.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000002 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000003 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000004 /* VideoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetail.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000005 /* VideoStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoStream.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000006 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000007 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000008 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000009 /* BiliAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiliAPIClient.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000000A /* WBISigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBISigner.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000000B /* DeviceIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceIdentity.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000000C /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000000D /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000000E /* VideoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailViewModel.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000000F /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000010 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000011 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000012 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000013 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000014 /* VideoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCard.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000015 /* VideoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailView.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000016 /* CommentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListView.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000017 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000018 /* PlayerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerOverlay.swift; sourceTree = "<group>"; };
-		AAAA00020000000000000019 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000001A /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000001B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000001C /* ErrorBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBanner.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000001D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000001E /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View+Extensions.swift; sourceTree = "<group>"; };
-		AAAA0002000000000000001F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		AAAA00020000000000000020 /* BiliLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BiliLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0000000000000000001E8481 /* BiliLiteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiliLiteApp.swift; sourceTree = "<group>"; };
+		0000000000000000001E8482 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
+		0000000000000000001E8483 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		0000000000000000001E8484 /* VideoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetail.swift; sourceTree = "<group>"; };
+		0000000000000000001E8485 /* VideoStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoStream.swift; sourceTree = "<group>"; };
+		0000000000000000001E8486 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		0000000000000000001E8487 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		0000000000000000001E8488 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		0000000000000000001E8489 /* BiliAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiliAPIClient.swift; sourceTree = "<group>"; };
+		0000000000000000001E848A /* WBISigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBISigner.swift; sourceTree = "<group>"; };
+		0000000000000000001E848B /* DeviceIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceIdentity.swift; sourceTree = "<group>"; };
+		0000000000000000001E848C /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		0000000000000000001E848D /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E848E /* VideoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E848F /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E8490 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E8491 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E8492 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		0000000000000000001E8493 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		0000000000000000001E8494 /* VideoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCard.swift; sourceTree = "<group>"; };
+		0000000000000000001E8495 /* VideoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailView.swift; sourceTree = "<group>"; };
+		0000000000000000001E8496 /* CommentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListView.swift; sourceTree = "<group>"; };
+		0000000000000000001E8497 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
+		0000000000000000001E8498 /* PlayerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerOverlay.swift; sourceTree = "<group>"; };
+		0000000000000000001E8499 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		0000000000000000001E849A /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
+		0000000000000000001E849B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		0000000000000000001E849C /* ErrorBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBanner.swift; sourceTree = "<group>"; };
+		0000000000000000001E849D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		0000000000000000001E849E /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View+Extensions.swift; sourceTree = "<group>"; };
+		0000000000000000001E849F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0000000000000000002DC6BF /* BiliLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BiliLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		AAAA00030000000000000001 /* Frameworks */ = {
+		0000000000000000002DC6C1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
-			files = (
-			);
+			files = ();
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AAAA00040000000000000001 = {
+		0000000000000000003D0901 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				AAAA00040000000000000002 /* BiliLite */,
-				AAAA00040000000000000003 /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		AAAA00040000000000000002 /* BiliLite */ = {
-			isa = PBXGroup;
-			children = (
-				AAAA00040000000000000010 /* App */,
-				AAAA00040000000000000011 /* Models */,
-				AAAA00040000000000000012 /* Services */,
-				AAAA00040000000000000013 /* ViewModels */,
-				AAAA00040000000000000014 /* Views */,
-				AAAA00040000000000000015 /* Utils */,
-				AAAA00040000000000000016 /* Resources */,
-			);
-			path = BiliLite;
-			sourceTree = "<group>";
-		};
-		AAAA00040000000000000003 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				AAAA00020000000000000020 /* BiliLite.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		AAAA00040000000000000010 /* App */ = {
-			isa = PBXGroup;
-			children = (
-				AAAA00020000000000000001 /* BiliLiteApp.swift */,
+				0000000000000000001E8481,
 			);
 			path = App;
 			sourceTree = "<group>";
 		};
-		AAAA00040000000000000011 /* Models */ = {
+		0000000000000000003D0902 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				AAAA00020000000000000002 /* APIResponse.swift */,
-				AAAA00020000000000000003 /* Video.swift */,
-				AAAA00020000000000000004 /* VideoDetail.swift */,
-				AAAA00020000000000000005 /* VideoStream.swift */,
-				AAAA00020000000000000006 /* Comment.swift */,
-				AAAA00020000000000000007 /* SearchResult.swift */,
-				AAAA00020000000000000008 /* UserProfile.swift */,
+				0000000000000000001E8482,
+				0000000000000000001E8483,
+				0000000000000000001E8484,
+				0000000000000000001E8485,
+				0000000000000000001E8486,
+				0000000000000000001E8487,
+				0000000000000000001E8488,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		AAAA00040000000000000012 /* Services */ = {
+		0000000000000000003D0903 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				AAAA00020000000000000009 /* BiliAPIClient.swift */,
-				AAAA0002000000000000000A /* WBISigner.swift */,
-				AAAA0002000000000000000B /* DeviceIdentity.swift */,
-				AAAA0002000000000000000C /* ImageCache.swift */,
+				0000000000000000001E8489,
+				0000000000000000001E848A,
+				0000000000000000001E848B,
+				0000000000000000001E848C,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		AAAA00040000000000000013 /* ViewModels */ = {
+		0000000000000000003D0904 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				AAAA0002000000000000000D /* HomeViewModel.swift */,
-				AAAA0002000000000000000E /* VideoDetailViewModel.swift */,
-				AAAA0002000000000000000F /* PlayerViewModel.swift */,
-				AAAA00020000000000000010 /* SearchViewModel.swift */,
-				AAAA00020000000000000011 /* CommentViewModel.swift */,
+				0000000000000000001E848D,
+				0000000000000000001E848E,
+				0000000000000000001E848F,
+				0000000000000000001E8490,
+				0000000000000000001E8491,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		AAAA00040000000000000014 /* Views */ = {
+		0000000000000000003D090B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				AAAA00020000000000000012 /* MainTabView.swift */,
-				AAAA00040000000000000020 /* Home */,
-				AAAA00040000000000000021 /* Detail */,
-				AAAA00040000000000000022 /* Player */,
-				AAAA00040000000000000023 /* Search */,
-				AAAA00040000000000000024 /* Common */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		AAAA00040000000000000015 /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				AAAA0002000000000000001D /* Constants.swift */,
-				AAAA0002000000000000001E /* View+Extensions.swift */,
+				0000000000000000001E849D,
+				0000000000000000001E849E,
 			);
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		AAAA00040000000000000016 /* Resources */ = {
+		0000000000000000003D0906 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				AAAA0002000000000000001F /* Assets.xcassets */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		AAAA00040000000000000020 /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				AAAA00020000000000000013 /* HomeView.swift */,
-				AAAA00020000000000000014 /* VideoCard.swift */,
+				0000000000000000001E8493,
+				0000000000000000001E8494,
 			);
 			path = Home;
 			sourceTree = "<group>";
 		};
-		AAAA00040000000000000021 /* Detail */ = {
+		0000000000000000003D0907 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
-				AAAA00020000000000000015 /* VideoDetailView.swift */,
-				AAAA00020000000000000016 /* CommentListView.swift */,
+				0000000000000000001E8495,
+				0000000000000000001E8496,
 			);
 			path = Detail;
 			sourceTree = "<group>";
 		};
-		AAAA00040000000000000022 /* Player */ = {
+		0000000000000000003D0908 /* Player */ = {
 			isa = PBXGroup;
 			children = (
-				AAAA00020000000000000017 /* VideoPlayerView.swift */,
-				AAAA00020000000000000018 /* PlayerOverlay.swift */,
+				0000000000000000001E8497,
+				0000000000000000001E8498,
 			);
 			path = Player;
 			sourceTree = "<group>";
 		};
-		AAAA00040000000000000023 /* Search */ = {
+		0000000000000000003D0909 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				AAAA00020000000000000019 /* SearchView.swift */,
+				0000000000000000001E8499,
 			);
 			path = Search;
 			sourceTree = "<group>";
 		};
-		AAAA00040000000000000024 /* Common */ = {
+		0000000000000000003D090A /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				AAAA0002000000000000001A /* CachedAsyncImage.swift */,
-				AAAA0002000000000000001B /* LoadingView.swift */,
-				AAAA0002000000000000001C /* ErrorBanner.swift */,
+				0000000000000000001E849A,
+				0000000000000000001E849B,
+				0000000000000000001E849C,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0905 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E8492,
+				0000000000000000003D0906,
+				0000000000000000003D0907,
+				0000000000000000003D0908,
+				0000000000000000003D0909,
+				0000000000000000003D090A,
+			);
+			name = Views;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D090C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E849F,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D090D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000002DC6BF,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0900 /*  */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000003D0901,
+				0000000000000000003D0902,
+				0000000000000000003D0903,
+				0000000000000000003D0904,
+				0000000000000000003D0905,
+				0000000000000000003D090B,
+				0000000000000000003D090C,
+				0000000000000000003D090D,
+			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		AAAA00050000000000000001 /* BiliLite */ = {
+		0000000000000000004C4B41 /* BiliLite */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = AAAA00070000000000000001 /* Build configuration list for PBXNativeTarget "BiliLite" */;
+			buildConfigurationList = 0000000000000000007A1202 /* BCL target */;
 			buildPhases = (
-				AAAA00060000000000000001 /* Sources */,
-				AAAA00030000000000000001 /* Frameworks */,
-				AAAA00080000000000000001 /* Resources */,
+				0000000000000000005B8D81 /* Sources */,
+				0000000000000000002DC6C1 /* Frameworks */,
+				0000000000000000006ACFC1 /* Resources */,
 			);
-			buildRules = (
-			);
-			dependencies = (
-			);
+			buildRules = ();
+			dependencies = ();
 			name = BiliLite;
 			productName = BiliLite;
-			productReference = AAAA00020000000000000020 /* BiliLite.app */;
+			productReference = 0000000000000000002DC6BF;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		AAAA00090000000000000001 /* Project object */ = {
+		000000000000000000895441 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
-					AAAA00050000000000000001 = {
-						CreatedOnToolsVersion = 15.2;
-					};
+					0000000000000000004C4B41 = {CreatedOnToolsVersion = 15.2; };
 				};
 			};
-			buildConfigurationList = AAAA00070000000000000002 /* Build configuration list for PBXProject "BiliLite" */;
+			buildConfigurationList = 0000000000000000007A1201 /* BCL project */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
-			knownRegions = (
-				en,
-				"zh-Hans",
-				Base,
-			);
-			mainGroup = AAAA00040000000000000001;
-			productRefGroup = AAAA00040000000000000003 /* Products */;
+			knownRegions = (en, "zh-Hans", Base);
+			mainGroup = 0000000000000000003D0900;
+			productRefGroup = 0000000000000000003D090D;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AAAA00050000000000000001 /* BiliLite */,
+				0000000000000000004C4B41 /* BiliLite */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		AAAA00080000000000000001 /* Resources */ = {
+		0000000000000000006ACFC1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAAA0001000000000000001F /* Assets.xcassets in Resources */,
+				0000000000000000000F425F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		AAAA00060000000000000001 /* Sources */ = {
+		0000000000000000005B8D81 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AAAA00010000000000000001 /* BiliLiteApp.swift in Sources */,
-				AAAA00010000000000000002 /* APIResponse.swift in Sources */,
-				AAAA00010000000000000003 /* Video.swift in Sources */,
-				AAAA00010000000000000004 /* VideoDetail.swift in Sources */,
-				AAAA00010000000000000005 /* VideoStream.swift in Sources */,
-				AAAA00010000000000000006 /* Comment.swift in Sources */,
-				AAAA00010000000000000007 /* SearchResult.swift in Sources */,
-				AAAA00010000000000000008 /* UserProfile.swift in Sources */,
-				AAAA00010000000000000009 /* BiliAPIClient.swift in Sources */,
-				AAAA0001000000000000000A /* WBISigner.swift in Sources */,
-				AAAA0001000000000000000B /* DeviceIdentity.swift in Sources */,
-				AAAA0001000000000000000C /* ImageCache.swift in Sources */,
-				AAAA0001000000000000000D /* HomeViewModel.swift in Sources */,
-				AAAA0001000000000000000E /* VideoDetailViewModel.swift in Sources */,
-				AAAA0001000000000000000F /* PlayerViewModel.swift in Sources */,
-				AAAA00010000000000000010 /* SearchViewModel.swift in Sources */,
-				AAAA00010000000000000011 /* CommentViewModel.swift in Sources */,
-				AAAA00010000000000000012 /* MainTabView.swift in Sources */,
-				AAAA00010000000000000013 /* HomeView.swift in Sources */,
-				AAAA00010000000000000014 /* VideoCard.swift in Sources */,
-				AAAA00010000000000000015 /* VideoDetailView.swift in Sources */,
-				AAAA00010000000000000016 /* CommentListView.swift in Sources */,
-				AAAA00010000000000000017 /* VideoPlayerView.swift in Sources */,
-				AAAA00010000000000000018 /* PlayerOverlay.swift in Sources */,
-				AAAA00010000000000000019 /* SearchView.swift in Sources */,
-				AAAA0001000000000000001A /* CachedAsyncImage.swift in Sources */,
-				AAAA0001000000000000001B /* LoadingView.swift in Sources */,
-				AAAA0001000000000000001C /* ErrorBanner.swift in Sources */,
-				AAAA0001000000000000001D /* Constants.swift in Sources */,
-				AAAA0001000000000000001E /* View+Extensions.swift in Sources */,
+				0000000000000000000F4241 /* BiliLiteApp.swift in Sources */,
+				0000000000000000000F4242 /* APIResponse.swift in Sources */,
+				0000000000000000000F4243 /* Video.swift in Sources */,
+				0000000000000000000F4244 /* VideoDetail.swift in Sources */,
+				0000000000000000000F4245 /* VideoStream.swift in Sources */,
+				0000000000000000000F4246 /* Comment.swift in Sources */,
+				0000000000000000000F4247 /* SearchResult.swift in Sources */,
+				0000000000000000000F4248 /* UserProfile.swift in Sources */,
+				0000000000000000000F4249 /* BiliAPIClient.swift in Sources */,
+				0000000000000000000F424A /* WBISigner.swift in Sources */,
+				0000000000000000000F424B /* DeviceIdentity.swift in Sources */,
+				0000000000000000000F424C /* ImageCache.swift in Sources */,
+				0000000000000000000F424D /* HomeViewModel.swift in Sources */,
+				0000000000000000000F424E /* VideoDetailViewModel.swift in Sources */,
+				0000000000000000000F424F /* PlayerViewModel.swift in Sources */,
+				0000000000000000000F4250 /* SearchViewModel.swift in Sources */,
+				0000000000000000000F4251 /* CommentViewModel.swift in Sources */,
+				0000000000000000000F4252 /* MainTabView.swift in Sources */,
+				0000000000000000000F4253 /* HomeView.swift in Sources */,
+				0000000000000000000F4254 /* VideoCard.swift in Sources */,
+				0000000000000000000F4255 /* VideoDetailView.swift in Sources */,
+				0000000000000000000F4256 /* CommentListView.swift in Sources */,
+				0000000000000000000F4257 /* VideoPlayerView.swift in Sources */,
+				0000000000000000000F4258 /* PlayerOverlay.swift in Sources */,
+				0000000000000000000F4259 /* SearchView.swift in Sources */,
+				0000000000000000000F425A /* CachedAsyncImage.swift in Sources */,
+				0000000000000000000F425B /* LoadingView.swift in Sources */,
+				0000000000000000000F425C /* ErrorBanner.swift in Sources */,
+				0000000000000000000F425D /* Constants.swift in Sources */,
+				0000000000000000000F425E /* View+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		AAAA000A0000000000000001 /* Debug */ = {
+		000000000000000000A7D8C1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
@@ -357,10 +333,6 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				ONLY_ACTIVE_ARCH = YES;
@@ -370,11 +342,10 @@
 			};
 			name = Debug;
 		};
-		AAAA000A0000000000000002 /* Release */ = {
+		000000000000000000A7D8C2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
@@ -393,7 +364,7 @@
 			};
 			name = Release;
 		};
-		AAAA000A0000000000000003 /* Debug */ = {
+		000000000000000000A7D8C3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -404,10 +375,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bililite.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -418,7 +386,7 @@
 			};
 			name = Debug;
 		};
-		AAAA000A0000000000000004 /* Release */ = {
+		000000000000000000A7D8C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -429,10 +397,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.bililite.app;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -446,25 +411,26 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AAAA00070000000000000001 /* Build configuration list for PBXNativeTarget "BiliLite" */ = {
+		0000000000000000007A1202 /* BCL target */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AAAA000A0000000000000003 /* Debug */,
-				AAAA000A0000000000000004 /* Release */,
+				000000000000000000A7D8C3 /* Debug */,
+				000000000000000000A7D8C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		AAAA00070000000000000002 /* Build configuration list for PBXProject "BiliLite" */ = {
+		0000000000000000007A1201 /* BCL project */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AAAA000A0000000000000001 /* Debug */,
-				AAAA000A0000000000000002 /* Release */,
+				000000000000000000A7D8C1 /* Debug */,
+				000000000000000000A7D8C2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
 	};
-	rootObject = AAAA00090000000000000001 /* Project object */;
+	rootObject = 000000000000000000895441 /* Project object */;
 }

@@ -65,12 +65,31 @@ final class FavoritesViewModel: ObservableObject {
 
 struct HistoryItem: Identifiable, Codable {
     let id: UUID
-    let video: Video
+    let bvid: String
+    let title: String
+    let pic: String
+    let duration: Int
+    let ownerName: String
+    let ownerFace: String
+    let viewCount: Int
     let timestamp: Date
 
     init(video: Video, timestamp: Date) {
         self.id = UUID()
-        self.video = video
+        self.bvid = video.bvid
+        self.title = video.title
+        self.pic = video.pic
+        self.duration = video.duration
+        self.ownerName = video.owner.name
+        self.ownerFace = video.owner.face
+        self.viewCount = video.stat.view
         self.timestamp = timestamp
+    }
+
+    var video: Video {
+        Video(aid: 0, bvid: bvid, title: title, pic: pic, duration: duration,
+              owner: VideoOwner(mid: 0, name: ownerName, face: ownerFace),
+              stat: VideoStat(view: viewCount, danmaku: 0, reply: 0, favorite: 0, like: 0, coin: 0, share: 0),
+              pubdate: 0, desc: nil, cid: nil)
     }
 }

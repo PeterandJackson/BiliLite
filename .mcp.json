@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "native-devtools": {
-      "command": "npx",
-      "args": ["-y", "native-devtools-mcp"]
-    }
-  }
-}

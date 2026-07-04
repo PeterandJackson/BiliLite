@@ -1,0 +1,21 @@
+# 旧项目残留（不管）
+youtube-downloader/
+ClothingAR/
+logs/
+undefined/
+run.ipynb
+.mcp.json
+.claude/
+
+# macOS
+.DS_Store
+*.xcuserdata
+*.xcworkspace
+xcuserdata/
+DerivedData/
+*.xcarchive
+
+# Build
+*.ipa
+*.dSYM.zip
+*.dSYM

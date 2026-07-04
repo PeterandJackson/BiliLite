@@ -5,6 +5,16 @@ L = []  # output lines
 
 def add(s=""): L.append(s)
 
+# ==== ROOT STRUCTURE HEADER ====
+add("// !$*UTF8*$!")
+add("{")
+add("\tarchiveVersion = 1;")
+add("\tclasses = {")
+add("\t};")
+add("\tobjectVersion = 56;")
+add("\tobjects = {")
+add("")
+
 # All source files: (filename, parent_group_key)
 FILES = [
     # App
@@ -382,8 +392,7 @@ add(f"\trootObject = {PRJ} /* Project object */;")
 add("}")
 
 # Write
-header = "// !$*UTF8*$!\n"
-output = header + "\n".join(L) + "\n"
+output = "\n".join(L) + "\n"
 with open("BiliLite.xcodeproj/project.pbxproj", "w", encoding="utf-8", newline="\n") as f:
     f.write(output)
 print("pbxproj generated successfully")

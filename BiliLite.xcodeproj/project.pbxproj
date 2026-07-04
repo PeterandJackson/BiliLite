@@ -1,4 +1,11 @@
 // !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
 /* Begin PBXBuildFile section */
 		0000000000000000000F4241 /* BiliLiteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8481 /* BiliLiteApp.swift */; };
 		0000000000000000000F4242 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8482 /* APIResponse.swift */; };

@@ -139,5 +139,4 @@ final class PlayerViewModel: ObservableObject {
             }
         }
     }
-    }
 }

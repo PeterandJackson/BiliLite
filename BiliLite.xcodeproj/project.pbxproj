@@ -29,7 +29,7 @@
 		0000000000000000000F425B /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849B /* LoadingView.swift */; };
 		0000000000000000000F425C /* ErrorBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849C /* ErrorBanner.swift */; };
 		0000000000000000000F425D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849D /* Constants.swift */; };
-		0000000000000000000F425E /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849E /* View+Extensions.swift */; };
+		0000000000000000000F425E /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849E /* ViewExtensions.swift */; };
 		0000000000000000000F425F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849F /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -63,7 +63,7 @@
 		0000000000000000001E849B /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		0000000000000000001E849C /* ErrorBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBanner.swift; sourceTree = "<group>"; };
 		0000000000000000001E849D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		0000000000000000001E849E /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View+Extensions.swift; sourceTree = "<group>"; };
+		0000000000000000001E849E /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
 		0000000000000000001E849F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0000000000000000002DC6BF /* BiliLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BiliLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -312,7 +312,7 @@
 				0000000000000000000F425B /* LoadingView.swift in Sources */,
 				0000000000000000000F425C /* ErrorBanner.swift in Sources */,
 				0000000000000000000F425D /* Constants.swift in Sources */,
-				0000000000000000000F425E /* View+Extensions.swift in Sources */,
+				0000000000000000000F425E /* ViewExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

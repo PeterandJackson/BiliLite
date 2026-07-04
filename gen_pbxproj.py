@@ -42,7 +42,7 @@ FILES = [
     ("ErrorBanner.swift", "Views/Common"),
     # Utils
     ("Constants.swift", "Utils"),
-    ("View+Extensions.swift", "Utils"),
+    ("ViewExtensions.swift", "Utils"),
     # Resources
     ("Assets.xcassets", "Resources"),
 ]

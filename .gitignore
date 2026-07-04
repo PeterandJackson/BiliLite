@@ -1,0 +1,32 @@
+# 旧项目残留（不管）
+youtube-downloader/
+logs/
+undefined/
+run.ipynb
+.mcp.json
+.claude/
+
+# macOS
+.DS_Store
+*.xcuserdata
+*.xcworkspace
+xcuserdata/
+DerivedData/
+*.xcarchive
+
+# Build
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# 模型 FBX（太大，不上传 — 只传转换后的 GLB）
+ClothingAR/ClothingAR/Resources/Models/FBX/
+# 贴图太大，不上传（16MB x 16张 = 256MB）
+ClothingAR/ClothingAR/Resources/Models/Textures/
+node_modules/
+ui-builder/
+node_modules/
+ui-builder/
+c-learning/
+ClothingAR/
+node_modules/

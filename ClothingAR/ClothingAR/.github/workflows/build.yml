@@ -1,0 +1,76 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Convert GLB to SCN (macOS build-time)
+        run: |
+          # macOS 上 ModelIO 支持 GLB，转换为 SceneKit 原生 SCN 格式
+          swift - <<'EOF'
+          import ModelIO
+          import SceneKit
+          let glbPath = "ClothingAR/Resources/Models/THIN_WELD_DECIMATED_new.glb"
+          let scnPath = "ClothingAR/Resources/Models/THIN_WELD_DECIMATED_new.scn"
+          guard FileManager.default.fileExists(atPath: glbPath) else {
+            print("GLB file not found, skipping conversion")
+            exit(0)
+          }
+          let asset = MDLAsset(url: URL(fileURLWithPath: glbPath))
+          guard asset.count > 0 else {
+            print("MDLAsset failed to load GLB (count=0)")
+            exit(1)
+          }
+          let scene = SCNScene(mdlAsset: asset)
+          guard scene.rootNode.childNodes.count > 0 else {
+            print("SCNScene empty after GLB import")
+            exit(1)
+          }
+          scene.write(to: URL(fileURLWithPath: scnPath), options: nil, delegate: nil, progressHandler: nil)
+          print("GLB -> SCN conversion successful: \(scnPath)")
+          EOF
+
+      - name: Generate pbxproj
+        run: python3 gen_pbxproj.py
+
+      - name: Archive (unsigned)
+        run: |
+          xcodebuild archive \
+            -project ClothingAR.xcodeproj \
+            -scheme ClothingAR \
+            -archivePath ClothingAR.xcarchive \
+            -destination "generic/platform=iOS" \
+            -allowProvisioningUpdates \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_ENTITLEMENTS="" \
+            PRODUCT_BUNDLE_IDENTIFIER=com.clothingar.app \
+            IPHONEOS_DEPLOYMENT_TARGET=16.0
+
+      - name: Package IPA
+        run: |
+          mkdir -p Payload
+          cp -R ClothingAR.xcarchive/Products/Applications/ClothingAR.app Payload/
+          zip -r -y ClothingAR-unsigned.ipa Payload
+          rm -rf Payload
+          echo "IPA built"
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: ClothingAR-unsigned
+          path: ClothingAR-unsigned.ipa
+          retention-days: 7

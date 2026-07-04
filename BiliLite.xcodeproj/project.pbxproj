@@ -1,0 +1,461 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0000000000000000000F4241 /* BiliLiteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8481 /* BiliLiteApp.swift */; };
+		0000000000000000000F4242 /* APIResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8482 /* APIResponse.swift */; };
+		0000000000000000000F4243 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8483 /* Video.swift */; };
+		0000000000000000000F4244 /* VideoDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8484 /* VideoDetail.swift */; };
+		0000000000000000000F4245 /* VideoStream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8485 /* VideoStream.swift */; };
+		0000000000000000000F4246 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8486 /* Comment.swift */; };
+		0000000000000000000F4247 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8487 /* SearchResult.swift */; };
+		0000000000000000000F4248 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8488 /* UserProfile.swift */; };
+		0000000000000000000F4249 /* BiliAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8489 /* BiliAPIClient.swift */; };
+		0000000000000000000F424A /* WBISigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848A /* WBISigner.swift */; };
+		0000000000000000000F424B /* DeviceIdentity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848B /* DeviceIdentity.swift */; };
+		0000000000000000000F424C /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848C /* ImageCache.swift */; };
+		0000000000000000000F424D /* DanmakuParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848D /* DanmakuParser.swift */; };
+		0000000000000000000F424E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848E /* HomeViewModel.swift */; };
+		0000000000000000000F424F /* VideoDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E848F /* VideoDetailViewModel.swift */; };
+		0000000000000000000F4250 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8490 /* PlayerViewModel.swift */; };
+		0000000000000000000F4251 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8491 /* SearchViewModel.swift */; };
+		0000000000000000000F4252 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8492 /* CommentViewModel.swift */; };
+		0000000000000000000F4253 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8493 /* LoginViewModel.swift */; };
+		0000000000000000000F4254 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8494 /* FavoritesViewModel.swift */; };
+		0000000000000000000F4255 /* LiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8495 /* LiveViewModel.swift */; };
+		0000000000000000000F4256 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8496 /* MainTabView.swift */; };
+		0000000000000000000F4257 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8497 /* HomeView.swift */; };
+		0000000000000000000F4258 /* VideoCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8498 /* VideoCard.swift */; };
+		0000000000000000000F4259 /* VideoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E8499 /* VideoDetailView.swift */; };
+		0000000000000000000F425A /* CommentListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849A /* CommentListView.swift */; };
+		0000000000000000000F425B /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849B /* VideoPlayerView.swift */; };
+		0000000000000000000F425C /* PlayerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849C /* PlayerOverlay.swift */; };
+		0000000000000000000F425D /* DanmakuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849D /* DanmakuView.swift */; };
+		0000000000000000000F425E /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849E /* SearchView.swift */; };
+		0000000000000000000F425F /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849F /* LoginView.swift */; };
+		0000000000000000000F4260 /* LiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E84A0 /* LiveView.swift */; };
+		0000000000000000000F4261 /* CachedAsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E84A1 /* CachedAsyncImage.swift */; };
+		0000000000000000000F4262 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E84A2 /* LoadingView.swift */; };
+		0000000000000000000F4263 /* ErrorBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E84A3 /* ErrorBanner.swift */; };
+		0000000000000000000F4264 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E84A4 /* Constants.swift */; };
+		0000000000000000000F4265 /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E84A5 /* ViewExtensions.swift */; };
+		0000000000000000000F4267 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E84A7 /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0000000000000000001E8481 /* BiliLiteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiliLiteApp.swift; sourceTree = "<group>"; };
+		0000000000000000001E8482 /* APIResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIResponse.swift; sourceTree = "<group>"; };
+		0000000000000000001E8483 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		0000000000000000001E8484 /* VideoDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetail.swift; sourceTree = "<group>"; };
+		0000000000000000001E8485 /* VideoStream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoStream.swift; sourceTree = "<group>"; };
+		0000000000000000001E8486 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		0000000000000000001E8487 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		0000000000000000001E8488 /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		0000000000000000001E8489 /* BiliAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BiliAPIClient.swift; sourceTree = "<group>"; };
+		0000000000000000001E848A /* WBISigner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBISigner.swift; sourceTree = "<group>"; };
+		0000000000000000001E848B /* DeviceIdentity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceIdentity.swift; sourceTree = "<group>"; };
+		0000000000000000001E848C /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
+		0000000000000000001E848D /* DanmakuParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanmakuParser.swift; sourceTree = "<group>"; };
+		0000000000000000001E848E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E848F /* VideoDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E8490 /* PlayerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E8491 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E8492 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E8493 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E8494 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E8495 /* LiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveViewModel.swift; sourceTree = "<group>"; };
+		0000000000000000001E8496 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		0000000000000000001E8497 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		0000000000000000001E8498 /* VideoCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCard.swift; sourceTree = "<group>"; };
+		0000000000000000001E8499 /* VideoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailView.swift; sourceTree = "<group>"; };
+		0000000000000000001E849A /* CommentListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentListView.swift; sourceTree = "<group>"; };
+		0000000000000000001E849B /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
+		0000000000000000001E849C /* PlayerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerOverlay.swift; sourceTree = "<group>"; };
+		0000000000000000001E849D /* DanmakuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanmakuView.swift; sourceTree = "<group>"; };
+		0000000000000000001E849E /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		0000000000000000001E849F /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		0000000000000000001E84A0 /* LiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveView.swift; sourceTree = "<group>"; };
+		0000000000000000001E84A1 /* CachedAsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachedAsyncImage.swift; sourceTree = "<group>"; };
+		0000000000000000001E84A2 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		0000000000000000001E84A3 /* ErrorBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBanner.swift; sourceTree = "<group>"; };
+		0000000000000000001E84A4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		0000000000000000001E84A5 /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
+		0000000000000000001E84A6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0000000000000000001E84A7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0000000000000000002DC6BF /* BiliLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BiliLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0000000000000000002DC6C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0000000000000000003D0901 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E8481,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0902 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E8482,
+				0000000000000000001E8483,
+				0000000000000000001E8484,
+				0000000000000000001E8485,
+				0000000000000000001E8486,
+				0000000000000000001E8487,
+				0000000000000000001E8488,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0903 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E8489,
+				0000000000000000001E848A,
+				0000000000000000001E848B,
+				0000000000000000001E848C,
+				0000000000000000001E848D,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0904 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E848E,
+				0000000000000000001E848F,
+				0000000000000000001E8490,
+				0000000000000000001E8491,
+				0000000000000000001E8492,
+				0000000000000000001E8493,
+				0000000000000000001E8494,
+				0000000000000000001E8495,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0906 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E8497,
+				0000000000000000001E8498,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0907 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E8499,
+				0000000000000000001E849A,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0908 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E849B,
+				0000000000000000001E849C,
+				0000000000000000001E849D,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0909 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E849E,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D090A /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E84A1,
+				0000000000000000001E84A2,
+				0000000000000000001E84A3,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0905 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E8496,
+				0000000000000000001E849F,
+				0000000000000000001E84A0,
+				0000000000000000003D0906,
+				0000000000000000003D0907,
+				0000000000000000003D0908,
+				0000000000000000003D0909,
+				0000000000000000003D090A,
+			);
+			name = Views;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D090B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E84A4,
+				0000000000000000001E84A5,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D090C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E84A6,
+				0000000000000000001E84A7,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D090D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000002DC6BF,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0900 /*  */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000003D0901,
+				0000000000000000003D0902,
+				0000000000000000003D0903,
+				0000000000000000003D0904,
+				0000000000000000003D0905,
+				0000000000000000003D090B,
+				0000000000000000003D090C,
+				0000000000000000003D090D,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0000000000000000004C4B41 /* BiliLite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0000000000000000007A1202 /* Build configuration list for PBXNativeTarget */;
+			buildPhases = (
+				0000000000000000005B8D81 /* Sources */,
+				0000000000000000002DC6C1 /* Frameworks */,
+				0000000000000000006ACFC1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BiliLite;
+			productName = BiliLite;
+			productReference = 0000000000000000002DC6BF /* BiliLite.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		000000000000000000895441 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					0000000000000000004C4B41 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = 0000000000000000007A1201 /* BCL project */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = "zh-Hans";
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				"zh-Hans",
+				Base,
+			);
+			mainGroup = 0000000000000000003D0900;
+			productRefGroup = 0000000000000000003D090D;
+			projectDirPath = "BiliLite";
+			projectRoot = "";
+			targets = (
+				0000000000000000004C4B41 /* BiliLite */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0000000000000000006ACFC1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0000000000000000000F4267 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0000000000000000005B8D81 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0000000000000000000F4241 /* BiliLiteApp.swift in Sources */,
+				0000000000000000000F4242 /* APIResponse.swift in Sources */,
+				0000000000000000000F4243 /* Video.swift in Sources */,
+				0000000000000000000F4244 /* VideoDetail.swift in Sources */,
+				0000000000000000000F4245 /* VideoStream.swift in Sources */,
+				0000000000000000000F4246 /* Comment.swift in Sources */,
+				0000000000000000000F4247 /* SearchResult.swift in Sources */,
+				0000000000000000000F4248 /* UserProfile.swift in Sources */,
+				0000000000000000000F4249 /* BiliAPIClient.swift in Sources */,
+				0000000000000000000F424A /* WBISigner.swift in Sources */,
+				0000000000000000000F424B /* DeviceIdentity.swift in Sources */,
+				0000000000000000000F424C /* ImageCache.swift in Sources */,
+				0000000000000000000F424D /* DanmakuParser.swift in Sources */,
+				0000000000000000000F424E /* HomeViewModel.swift in Sources */,
+				0000000000000000000F424F /* VideoDetailViewModel.swift in Sources */,
+				0000000000000000000F4250 /* PlayerViewModel.swift in Sources */,
+				0000000000000000000F4251 /* SearchViewModel.swift in Sources */,
+				0000000000000000000F4252 /* CommentViewModel.swift in Sources */,
+				0000000000000000000F4253 /* LoginViewModel.swift in Sources */,
+				0000000000000000000F4254 /* FavoritesViewModel.swift in Sources */,
+				0000000000000000000F4255 /* LiveViewModel.swift in Sources */,
+				0000000000000000000F4256 /* MainTabView.swift in Sources */,
+				0000000000000000000F4257 /* HomeView.swift in Sources */,
+				0000000000000000000F4258 /* VideoCard.swift in Sources */,
+				0000000000000000000F4259 /* VideoDetailView.swift in Sources */,
+				0000000000000000000F425A /* CommentListView.swift in Sources */,
+				0000000000000000000F425B /* VideoPlayerView.swift in Sources */,
+				0000000000000000000F425C /* PlayerOverlay.swift in Sources */,
+				0000000000000000000F425D /* DanmakuView.swift in Sources */,
+				0000000000000000000F425E /* SearchView.swift in Sources */,
+				0000000000000000000F425F /* LoginView.swift in Sources */,
+				0000000000000000000F4260 /* LiveView.swift in Sources */,
+				0000000000000000000F4261 /* CachedAsyncImage.swift in Sources */,
+				0000000000000000000F4262 /* LoadingView.swift in Sources */,
+				0000000000000000000F4263 /* ErrorBanner.swift in Sources */,
+				0000000000000000000F4264 /* Constants.swift in Sources */,
+				0000000000000000000F4265 /* ViewExtensions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		000000000000000000A7D8C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		000000000000000000A7D8C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_OPTIMIZATION_LEVEL = s;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		000000000000000000A7D8C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bililite.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+			};
+			name = Debug;
+		};
+		000000000000000000A7D8C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				INFOPLIST_FILE = Info.plist;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bililite.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0000000000000000007A1201 /* BCL project */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000A7D8C1 /* Debug */,
+				000000000000000000A7D8C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0000000000000000007A1202 /* BCL target */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000A7D8C3 /* Debug */,
+				000000000000000000A7D8C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 000000000000000000895441 /* Project object */;
+}

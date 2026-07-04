@@ -266,7 +266,7 @@
 			knownRegions = (en, "zh-Hans", Base);
 			mainGroup = 0000000000000000003D0900;
 			productRefGroup = 0000000000000000003D090D;
-			projectDirPath = "";
+			projectDirPath = "BiliLite";
 			projectRoot = "";
 			targets = (
 				0000000000000000004C4B41 /* BiliLite */,

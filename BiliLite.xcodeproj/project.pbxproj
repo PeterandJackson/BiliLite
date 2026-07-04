@@ -1,7 +1,8 @@
 // !$*UTF8*$!
 {
 	archiveVersion = 1;
-	classes = {};
+	classes = {
+	};
 	objectVersion = 56;
 	objects = {
 
@@ -90,7 +91,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		0000000000000000002DC6C1 /* Frameworks */ = {isa = PBXFrameworksBuildPhase; buildActionMask = 2147483647; files = (); runOnlyForDeploymentPostprocessing = 0; };
+		0000000000000000002DC6C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -141,15 +148,6 @@
 				0000000000000000001E8495,
 			);
 			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		0000000000000000003D090B /* Utils */ = {
-			isa = PBXGroup;
-			children = (
-				0000000000000000001E84A4,
-				0000000000000000001E84A5,
-			);
-			path = Utils;
 			sourceTree = "<group>";
 		};
 		0000000000000000003D0906 /* Home */ = {
@@ -214,6 +212,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		0000000000000000003D090B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0000000000000000001E84A4,
+				0000000000000000001E84A5,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		0000000000000000003D090C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,17 +257,19 @@
 /* Begin PBXNativeTarget section */
 		0000000000000000004C4B41 /* BiliLite */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0000000000000000007A1202 /* BCL */;
+			buildConfigurationList = 0000000000000000007A1202 /* Build configuration list for PBXNativeTarget "BiliLite" */;
 			buildPhases = (
 				0000000000000000005B8D81 /* Sources */,
 				0000000000000000002DC6C1 /* Frameworks */,
 				0000000000000000006ACFC1 /* Resources */,
 			);
-			buildRules = ();
-			dependencies = ();
+			buildRules = (
+			);
+			dependencies = (
+			);
 			name = BiliLite;
 			productName = BiliLite;
-			productReference = 0000000000000000002DC6BF;
+			productReference = 0000000000000000002DC6BF /* BiliLite.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -273,17 +282,23 @@
 				LastSwiftUpdateCheck = 1520;
 				LastUpgradeCheck = 1520;
 				TargetAttributes = {
-					0000000000000000004C4B41 = {CreatedOnToolsVersion = 15.2; };
+					0000000000000000004C4B41 = {
+						CreatedOnToolsVersion = 15.2;
+					};
 				};
 			};
-			buildConfigurationList = 0000000000000000007A1201 /* BCL project */;
+			buildConfigurationList = 0000000000000000007A1201 /* Build configuration list for PBXProject "BiliLite" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
-			knownRegions = (en, "zh-Hans", Base);
+			knownRegions = (
+				en,
+				"zh-Hans",
+				Base,
+			);
 			mainGroup = 0000000000000000003D0900;
-			productRefGroup = 0000000000000000003D090D;
-			projectDirPath = "BiliLite";
+			productRefGroup = 0000000000000000003D090D /* Products */;
+			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				0000000000000000004C4B41 /* BiliLite */,
@@ -292,11 +307,21 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0000000000000000006ACFC1 /* Resources */ = {isa = PBXResourcesBuildPhase; buildActionMask = 2147483647; files = (0000000000000000000F4267 /* Assets.xcassets in Resources */,); runOnlyForDeploymentPostprocessing = 0; };
+		0000000000000000006ACFC1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0000000000000000000F4267 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0000000000000000005B8D81 /* Sources */ = {isa = PBXSourcesBuildPhase; buildActionMask = 2147483647; files = (
+		0000000000000000005B8D81 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 				0000000000000000000F4241 /* BiliLiteApp.swift in Sources */,
 				0000000000000000000F4242 /* APIResponse.swift in Sources */,
 				0000000000000000000F4243 /* Video.swift in Sources */,
@@ -334,11 +359,15 @@
 				0000000000000000000F4263 /* ErrorBanner.swift in Sources */,
 				0000000000000000000F4264 /* Constants.swift in Sources */,
 				0000000000000000000F4265 /* ViewExtensions.swift in Sources */,
-			); runOnlyForDeploymentPostprocessing = 0; }};
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		000000000000000000A7D8C1 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {
+		000000000000000000A7D8C1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -352,8 +381,11 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
-			name = Debug; };
-		000000000000000000A7D8C2 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {
+			name = Debug;
+		};
+		000000000000000000A7D8C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -365,9 +397,13 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_OPTIMIZATION_LEVEL = s;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
 			};
-			name = Release; };
-		000000000000000000A7D8C3 /* Debug */ = {isa = XCBuildConfiguration; buildSettings = {
+			name = Release;
+		};
+		000000000000000000A7D8C3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Info.plist;
@@ -377,10 +413,13 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)","@executable_path/Frameworks");
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
 			};
-			name = Debug; };
-		000000000000000000A7D8C4 /* Release */ = {isa = XCBuildConfiguration; buildSettings = {
+			name = Debug;
+		};
+		000000000000000000A7D8C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = Info.plist;
@@ -390,14 +429,31 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
-				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)","@executable_path/Frameworks");
+				LD_RUNPATH_SEARCH_PATHS = ("$(inherited)", "@executable_path/Frameworks");
 			};
-			name = Release; };
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0000000000000000007A1202 /* BCL */ = {isa = XCConfigurationList; buildConfigurations = (000000000000000000A7D8C3 /* Debug */,000000000000000000A7D8C4 /* Release */,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
-		0000000000000000007A1201 /* BCL */ = {isa = XCConfigurationList; buildConfigurations = (000000000000000000A7D8C1 /* Debug */,000000000000000000A7D8C2 /* Release */,); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release; };
+		0000000000000000007A1201 /* Build configuration list for PBXProject "BiliLite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000A7D8C1 /* Debug */,
+				000000000000000000A7D8C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0000000000000000007A1202 /* Build configuration list for PBXNativeTarget "BiliLite" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000A7D8C3 /* Debug */,
+				000000000000000000A7D8C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 	};

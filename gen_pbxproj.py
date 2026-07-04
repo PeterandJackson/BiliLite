@@ -53,6 +53,7 @@ FILES = [
     # Utils
     ("Constants.swift", "Utils"),
     ("ViewExtensions.swift", "Utils"),
+    ("Info.plist", "Resources"),
     # Resources
     ("Assets.xcassets", "Resources"),
 ]
@@ -74,6 +75,8 @@ for name, grp in FILES:
     ref = FILEREF[name]
     if name == "Assets.xcassets":
         add(f"\t\t{BUILD[name]} /* {name} in Resources */ = {{isa = PBXBuildFile; fileRef = {ref} /* {name} */; }};")
+    elif name == "Info.plist":
+        pass  # Info.plist is not built — just a file reference
     else:
         add(f"\t\t{BUILD[name]} /* {name} in Sources */ = {{isa = PBXBuildFile; fileRef = {ref} /* {name} */; }};")
 add("/* End PBXBuildFile section */")
@@ -85,6 +88,8 @@ for name, grp in FILES:
     ref = FILEREF[name]
     if name == "Assets.xcassets":
         add(f"\t\t{ref} /* {name} */ = {{isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = {name}; sourceTree = \"<group>\"; }};")
+    elif name == "Info.plist":
+        add(f"\t\t{ref} /* {name} */ = {{isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = {name}; sourceTree = \"<group>\"; }};")
     else:
         add(f"\t\t{ref} /* {name} */ = {{isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = {name}; sourceTree = \"<group>\"; }};")
 add(f"\t\t{PRODUCT_REF} /* BiliLite.app */ = {{isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BiliLite.app; sourceTree = BUILT_PRODUCTS_DIR; }};")
@@ -168,7 +173,7 @@ views_children += [
 group(GROUP["Views"], views_children, name="Views", path="Views")
 
 # Resources
-group(GROUP["Resources"], [FILEREF["Assets.xcassets"]], path="Resources")
+group(GROUP["Resources"], [FILEREF["Info.plist"], FILEREF["Assets.xcassets"]], path="Resources")
 
 # Products
 group(GROUP["Products"], [PRODUCT_REF], name="Products")
@@ -255,7 +260,7 @@ add("\t\t\tisa = PBXSourcesBuildPhase;")
 add("\t\t\tbuildActionMask = 2147483647;")
 add("\t\t\tfiles = (")
 for name, grp in FILES:
-    if name != "Assets.xcassets":
+    if name != "Assets.xcassets" and name != "Info.plist":
         add(f"\t\t\t\t{BUILD[name]} /* {name} in Sources */,")
 add("\t\t\t);")
 add("\t\t\trunOnlyForDeploymentPostprocessing = 0;")
@@ -321,7 +326,7 @@ cfg(fid(11000002), "Release", [
 cfg(fid(11000003), "Debug", [
     "CODE_SIGN_STYLE = Automatic;",
     "CURRENT_PROJECT_VERSION = 1;",
-    "INFOPLIST_FILE = \"\";",
+    "INFOPLIST_FILE = Info.plist;",
     "INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;",
     "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;",
     "INFOPLIST_KEY_UILaunchScreen_Generation = YES;",
@@ -340,7 +345,7 @@ cfg(fid(11000003), "Debug", [
 cfg(fid(11000004), "Release", [
     "CODE_SIGN_STYLE = Automatic;",
     "CURRENT_PROJECT_VERSION = 1;",
-    "INFOPLIST_FILE = \"\";",
+    "INFOPLIST_FILE = Info.plist;",
     "INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;",
     "INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;",
     "INFOPLIST_KEY_UILaunchScreen_Generation = YES;",

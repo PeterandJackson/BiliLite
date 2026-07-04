@@ -37,7 +37,7 @@
 		0000000000000000000F425C /* ErrorBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849C /* ErrorBanner.swift */; };
 		0000000000000000000F425D /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849D /* Constants.swift */; };
 		0000000000000000000F425E /* ViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849E /* ViewExtensions.swift */; };
-		0000000000000000000F425F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E849F /* Assets.xcassets */; };
+		0000000000000000000F4260 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0000000000000000001E84A0 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,7 +71,8 @@
 		0000000000000000001E849C /* ErrorBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBanner.swift; sourceTree = "<group>"; };
 		0000000000000000001E849D /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0000000000000000001E849E /* ViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtensions.swift; sourceTree = "<group>"; };
-		0000000000000000001E849F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		0000000000000000001E849F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0000000000000000001E84A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0000000000000000002DC6BF /* BiliLite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BiliLite.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -202,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				0000000000000000001E849F,
+				0000000000000000001E84A0,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -279,7 +281,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0000000000000000000F425F /* Assets.xcassets in Resources */,
+				0000000000000000000F4260 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +378,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -397,7 +399,7 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -94,12 +94,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0000000000000000003D0901 /* App */ = {isa = PBXGroup; children = (
+		0000000000000000003D0901 /* App */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E8481,
 			);
 			path = App;
-			sourceTree = "<group>"; }};
-		0000000000000000003D0902 /* Models */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0902 /* Models */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E8482,
 				0000000000000000001E8483,
 				0000000000000000001E8484,
@@ -109,8 +114,11 @@
 				0000000000000000001E8488,
 			);
 			path = Models;
-			sourceTree = "<group>"; }};
-		0000000000000000003D0903 /* Services */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0903 /* Services */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E8489,
 				0000000000000000001E848A,
 				0000000000000000001E848B,
@@ -118,8 +126,11 @@
 				0000000000000000001E848D,
 			);
 			path = Services;
-			sourceTree = "<group>"; }};
-		0000000000000000003D0904 /* ViewModels */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0904 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E848E,
 				0000000000000000001E848F,
 				0000000000000000001E8490,
@@ -130,45 +141,66 @@
 				0000000000000000001E8495,
 			);
 			path = ViewModels;
-			sourceTree = "<group>"; }};
-		0000000000000000003D090B /* Utils */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D090B /* Utils */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E84A4,
 				0000000000000000001E84A5,
 			);
 			path = Utils;
-			sourceTree = "<group>"; }};
-		0000000000000000003D0906 /* Home */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0906 /* Home */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E8497,
 				0000000000000000001E8498,
 			);
 			path = Home;
-			sourceTree = "<group>"; }};
-		0000000000000000003D0907 /* Detail */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0907 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E8499,
 				0000000000000000001E849A,
 			);
 			path = Detail;
-			sourceTree = "<group>"; }};
-		0000000000000000003D0908 /* Player */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0908 /* Player */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E849B,
 				0000000000000000001E849C,
 				0000000000000000001E849D,
 			);
 			path = Player;
-			sourceTree = "<group>"; }};
-		0000000000000000003D0909 /* Search */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0909 /* Search */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E849E,
 			);
 			path = Search;
-			sourceTree = "<group>"; }};
-		0000000000000000003D090A /* Common */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D090A /* Common */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E84A1,
 				0000000000000000001E84A2,
 				0000000000000000001E84A3,
 			);
 			path = Common;
-			sourceTree = "<group>"; }};
-		0000000000000000003D0905 /* Views */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0905 /* Views */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E8496,
 				0000000000000000001E849F,
 				0000000000000000001E84A0,
@@ -180,19 +212,28 @@
 			);
 			name = Views;
 			path = Views;
-			sourceTree = "<group>"; }};
-		0000000000000000003D090C /* Resources */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D090C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000001E84A6,
 				0000000000000000001E84A7,
 			);
 			path = Resources;
-			sourceTree = "<group>"; }};
-		0000000000000000003D090D /* Products */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D090D /* Products */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000002DC6BF,
 			);
 			name = Products;
-			sourceTree = "<group>"; }};
-		0000000000000000003D0900 /*  */ = {isa = PBXGroup; children = (
+			sourceTree = "<group>";
+		};
+		0000000000000000003D0900 /*  */ = {
+			isa = PBXGroup;
+			children = (
 				0000000000000000003D0901,
 				0000000000000000003D0902,
 				0000000000000000003D0903,
@@ -202,15 +243,52 @@
 				0000000000000000003D090C,
 				0000000000000000003D090D,
 			);
-			sourceTree = "<group>"; }};
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0000000000000000004C4B41 /* BiliLite */ = {isa = PBXNativeTarget; buildConfigurationList = 0000000000000000007A1202 /* BCL */; buildPhases = (0000000000000000005B8D81 /* Sources */,0000000000000000002DC6C1 /* Frameworks */,0000000000000000006ACFC1 /* Resources */,); buildRules = (); dependencies = (); name = BiliLite; productName = BiliLite; productReference = 0000000000000000002DC6BF; productType = "com.apple.product-type.application"; };
+		0000000000000000004C4B41 /* BiliLite */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0000000000000000007A1202 /* BCL */;
+			buildPhases = (
+				0000000000000000005B8D81 /* Sources */,
+				0000000000000000002DC6C1 /* Frameworks */,
+				0000000000000000006ACFC1 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = BiliLite;
+			productName = BiliLite;
+			productReference = 0000000000000000002DC6BF;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		000000000000000000895441 /* Project object */ = {isa = PBXProject; attributes = {BuildIndependentTargetsInParallel = 1; LastSwiftUpdateCheck = 1520; LastUpgradeCheck = 1520; TargetAttributes = {0000000000000000004C4B41 = {CreatedOnToolsVersion = 15.2; }; }; }; buildConfigurationList = 0000000000000000007A1201; compatibilityVersion = "Xcode 14.0"; developmentRegion = "zh-Hans"; hasScannedForEncodings = 0; knownRegions = (en, "zh-Hans", Base); mainGroup = 0000000000000000003D0900; productRefGroup = 0000000000000000003D090D; projectDirPath = "BiliLite"; projectRoot = ""; targets = (0000000000000000004C4B41 /* BiliLite */,); };
+		000000000000000000895441 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					0000000000000000004C4B41 = {CreatedOnToolsVersion = 15.2; };
+				};
+			};
+			buildConfigurationList = 0000000000000000007A1201 /* BCL project */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = "zh-Hans";
+			hasScannedForEncodings = 0;
+			knownRegions = (en, "zh-Hans", Base);
+			mainGroup = 0000000000000000003D0900;
+			productRefGroup = 0000000000000000003D090D;
+			projectDirPath = "BiliLite";
+			projectRoot = "";
+			targets = (
+				0000000000000000004C4B41 /* BiliLite */,
+			);
+		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */

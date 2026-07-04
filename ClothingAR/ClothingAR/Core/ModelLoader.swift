@@ -1,4 +1,5 @@
 import SceneKit
+import ModelIO
 import MetalKit
 
 // MARK: - Bone Naming Lookup Table
@@ -86,43 +87,53 @@ final class ModelLoader {
 
     // MARK: - Load Model
 
-    /// 加载 DAE 或 SCN 文件
-    /// - Parameter fileName: 文件名（不含扩展名），默认 "THIN WELD"
-    /// - Parameter ext: 扩展名，"dae" 或 "scn"
+    /// 加载 DAE / SCN / GLB / FBX 文件
+    /// - Parameter fileName: 文件名（不含扩展名），默认 "THIN_WELD_DECIMATED_new"
+    /// - Parameter ext: 扩展名，默认 "glb"（Mixamo 转换后格式）
     /// - Returns: ModelLoadResult，失败返回 nil
-    static func load(named fileName: String = "THIN WELD",
-                     extension ext: String = "fbx") -> ModelLoadResult? {
-
-        // ── 尝试多种文件路径 ──
-        let possibleNames: [(String, String)] = [
-            // FBX 目录
-            ("FBX/\(fileName)", ext),
-            // 直接放在 Models 下
-            (fileName, "dae"),
-            (fileName, "scn"),
-        ]
+    static func load(named fileName: String = "THIN_WELD_DECIMATED_new",
+                     extension ext: String = "glb") -> ModelLoadResult? {
 
         var loadedScene: SCNScene?
 
-        for (name, ex) in possibleNames {
-            if let url = Bundle.main.url(forResource: name, withExtension: ex) {
-                do {
-                    loadedScene = try SCNScene(url: url, options: [
-                        .checkConsistency: true,
-                        .flattenSceneHierarchy: false
-                    ])
-                    print("[ModelLoader] 成功加载: \(name).\(ex)")
-                    break
-                } catch {
-                    print("[ModelLoader] 加载失败 (\(name).\(ex)): \(error.localizedDescription)")
+        // ── 优先尝试 GLB (glTF binary) ──
+        if ext == "glb" || ext == "gltf" {
+            if let url = Bundle.main.url(forResource: fileName, withExtension: ext) {
+                loadedScene = loadGLBAsset(url: url)
+                if loadedScene != nil {
+                    print("[ModelLoader] 成功加载 GLB: \(fileName).\(ext)")
                 }
             }
+        }
 
-            // 也尝试从 named: 加载
-            if let scene = SCNScene(named: "\(name).\(ex)") {
-                loadedScene = scene
-                print("[ModelLoader] 成功加载(named): \(name).\(ex)")
-                break
+        // ── 尝试各种路径组合 ──
+        if loadedScene == nil {
+            let possibleNames: [(String, String)] = [
+                (fileName, "glb"),
+                (fileName, "dae"),
+                (fileName, "scn"),
+                ("FBX/\(fileName)", "fbx"),
+            ]
+
+            for (name, ex) in possibleNames {
+                if let url = Bundle.main.url(forResource: name, withExtension: ex) {
+                    do {
+                        loadedScene = try SCNScene(url: url, options: [
+                            .checkConsistency: true,
+                            .flattenSceneHierarchy: false
+                        ])
+                        print("[ModelLoader] 成功加载: \(name).\(ex)")
+                        break
+                    } catch {
+                        print("[ModelLoader] 加载失败 (\(name).\(ex)): \(error.localizedDescription)")
+                    }
+                }
+
+                if let scene = SCNScene(named: "\(name).\(ex)") {
+                    loadedScene = scene
+                    print("[ModelLoader] 成功加载(named): \(name).\(ex)")
+                    break
+                }
             }
         }
 

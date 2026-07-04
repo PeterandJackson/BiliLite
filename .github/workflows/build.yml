@@ -20,20 +20,19 @@ jobs:
         run: python3 gen_pbxproj.py
 
       - name: Archive (unsigned)
-        run: |
-          xcodebuild archive             -project ClothingAR.xcodeproj             -scheme ClothingAR             -archivePath ClothingAR.xcarchive             -destination "generic/platform=iOS"             -allowProvisioningUpdates             CODE_SIGN_IDENTITY=""             CODE_SIGNING_REQUIRED=NO             CODE_SIGNING_ALLOWED=NO             CODE_SIGN_ENTITLEMENTS=""             PRODUCT_BUNDLE_IDENTIFIER=com.clothingar.app             IPHONEOS_DEPLOYMENT_TARGET=16.0
+        run: xcodebuild archive -project BiliLite.xcodeproj -scheme BiliLite -archivePath BiliLite.xcarchive -destination "generic/platform=iOS" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO CODE_SIGN_ENTITLEMENTS="" PRODUCT_BUNDLE_IDENTIFIER=com.bililite.app
 
       - name: Package IPA
         run: |
           mkdir -p Payload
-          cp -R ClothingAR.xcarchive/Products/Applications/ClothingAR.app Payload/
-          zip -r -y ClothingAR-unsigned.ipa Payload
+          cp -R BiliLite.xcarchive/Products/Applications/BiliLite.app Payload/
+          zip -r -y BiliLite-unsigned.ipa Payload
           rm -rf Payload
-          echo IPA built
+          echo "IPA built: $(du -sh BiliLite-unsigned.ipa | cut -f1)"
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: ClothingAR-unsigned
-          path: ClothingAR-unsigned.ipa
+          name: BiliLite-unsigned
+          path: BiliLite-unsigned.ipa
           retention-days: 7

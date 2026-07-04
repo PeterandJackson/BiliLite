@@ -257,7 +257,7 @@
 /* Begin PBXNativeTarget section */
 		0000000000000000004C4B41 /* BiliLite */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0000000000000000007A1202 /* Build configuration list for PBXNativeTarget "BiliLite" */;
+			buildConfigurationList = 0000000000000000007A1202 /* Build configuration list for PBXNativeTarget */;
 			buildPhases = (
 				0000000000000000005B8D81 /* Sources */,
 				0000000000000000002DC6C1 /* Frameworks */,
@@ -287,7 +287,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0000000000000000007A1201 /* Build configuration list for PBXProject "BiliLite" */;
+			buildConfigurationList = 0000000000000000007A1201 /* BCL project */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
@@ -297,8 +297,8 @@
 				Base,
 			);
 			mainGroup = 0000000000000000003D0900;
-			productRefGroup = 0000000000000000003D090D /* Products */;
-			projectDirPath = "";
+			productRefGroup = 0000000000000000003D090D;
+			projectDirPath = "BiliLite";
 			projectRoot = "";
 			targets = (
 				0000000000000000004C4B41 /* BiliLite */,
@@ -436,7 +436,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0000000000000000007A1201 /* Build configuration list for PBXProject "BiliLite" */ = {
+		0000000000000000007A1201 /* BCL project */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				000000000000000000A7D8C1 /* Debug */,
@@ -445,7 +445,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0000000000000000007A1202 /* Build configuration list for PBXNativeTarget "BiliLite" */ = {
+		0000000000000000007A1202 /* BCL target */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				000000000000000000A7D8C3 /* Debug */,

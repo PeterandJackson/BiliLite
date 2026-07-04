@@ -1,0 +1,247 @@
+@import "tailwindcss";
+
+/* ── Editor Shell ──────────────────────────────────────── */
+.editor-shell {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Canvas ────────────────────────────────────────────── */
+.canvas-area {
+  background-color: #1e1e2e;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  overflow: hidden;
+  cursor: default;
+}
+
+.canvas-area.grabbing {
+  cursor: grabbing;
+}
+
+.canvas-viewport {
+  transform-origin: 0 0;
+  position: absolute;
+}
+
+/* ── Frame ─────────────────────────────────────────────── */
+.design-frame {
+  background: #ffffff;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Canvas Components ─────────────────────────────────── */
+.canvas-component {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.canvas-component.selected {
+  outline: 2px solid #3b82f6;
+  outline-offset: 1px;
+}
+
+.canvas-component.selected::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(59, 130, 246, 0.08);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.canvas-component:hover:not(.selected) {
+  outline: 1px dashed rgba(255,255,255,0.3);
+  outline-offset: 0px;
+}
+
+/* ── Alignment Guides ──────────────────────────────────── */
+.guide-line {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.guide-line.horizontal {
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #ef4444;
+}
+
+.guide-line.vertical {
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #ef4444;
+}
+
+/* ── Resize Handles ────────────────────────────────────── */
+.resize-handle {
+  position: absolute;
+  z-index: 100;
+  pointer-events: all;
+}
+
+.resize-handle.corner {
+  width: 8px;
+  height: 8px;
+  background: white;
+  border: 2px solid #3b82f6;
+  border-radius: 1px;
+}
+
+.resize-handle.edge {
+  background: white;
+  border: 2px solid #3b82f6;
+}
+
+.resize-handle.edge.top,
+.resize-handle.edge.bottom {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 4px;
+}
+
+.resize-handle.edge.left,
+.resize-handle.edge.right {
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 60%;
+}
+
+/* ── Drop Indicator ────────────────────────────────────── */
+.drop-indicator {
+  position: absolute;
+  z-index: 999;
+  pointer-events: none;
+  background: #3b82f6;
+  border-radius: 1px;
+}
+
+.drop-indicator.line {
+  height: 2px;
+}
+
+.drop-indicator.inside {
+  border: 2px solid #3b82f6;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 4px;
+}
+
+/* ── Component Palette ─────────────────────────────────── */
+.palette-item {
+  cursor: grab;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.palette-item:hover {
+  background: rgba(255,255,255,0.06);
+}
+
+.palette-item:active {
+  cursor: grabbing;
+}
+
+.palette-item.dragging {
+  opacity: 0.5;
+}
+
+/* ── Drag Overlay ──────────────────────────────────────── */
+.drag-overlay {
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* ── Scrollbar styling ─────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.15);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ── Panel resizer ─────────────────────────────────────── */
+.panel-resizer {
+  width: 4px;
+  cursor: col-resize;
+  background: transparent;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.panel-resizer:hover {
+  background: #3b82f6;
+}
+
+/* ── Property editor ───────────────────────────────────── */
+.property-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+
+.property-label {
+  font-size: 12px;
+  color: #9ca3af;
+  min-width: 70px;
+  flex-shrink: 0;
+}
+
+.property-input {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 4px;
+  color: #e5e7eb;
+  padding: 4px 8px;
+  font-size: 13px;
+  outline: none;
+  flex: 1;
+  min-width: 0;
+}
+
+.property-input:focus {
+  border-color: #3b82f6;
+}
+
+/* ── Toolbar ───────────────────────────────────────────── */
+.toolbar-btn {
+  padding: 6px 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolbar-btn:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+.toolbar-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

@@ -130,8 +130,9 @@ actor ImageCache {
     // MARK: - 内部
 
     private func cacheKey(_ url: URL) -> String {
-        let key = url.absoluteString.data(using: .utf8)!.base64EncodedString()
-            .replacingOccurrences(of: "/", with: "_")
+        let raw = url.absoluteString.data(using: .utf8)?.base64EncodedString()
+            ?? url.absoluteString
+        let key = raw.replacingOccurrences(of: "/", with: "_")
             .prefix(64)
         return String(key)
     }

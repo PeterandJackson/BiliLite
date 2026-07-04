@@ -51,18 +51,39 @@ final class LiveViewModel: ObservableObject {
                 "/xlive/web-room/v2/index/getRoomPlayInfo",
                 params: ["room_id": "\(roomId)", "protocol": "0,1", "format": "0,1,2", "codec": "0,1"]
             )
-            guard let firstStream = playURL.playurlInfo?.playurl?.stream?.first,
-                  let firstFormat = firstStream.format?.first,
-                  let firstCodec = firstFormat.codec?.first,
-                  let baseURL = firstCodec.baseUrl,
-                  let url = URL(string: baseURL)
-            else {
+            // 从多层级中提取第一个可用的流 URL
+            let streamUrl: URL? = {
+                for stream in playURL.playurlInfo?.playurl?.stream ?? [] {
+                    for fmt in stream.format ?? [] {
+                        for codec in fmt.codec ?? [] {
+                            if let raw = codec.baseUrl ?? codec.urlInfo?.first?.host,
+                               let u = URL(string: "\(raw)\(codec.urlInfo?.first?.extra ?? "")") {
+                                return u
+                            }
+                            // 也尝试 host + extra 拼接模式
+                            if let host = codec.host, let extra = codec.extra,
+                               let u = URL(string: "\(host)\(extra)") {
+                                return u
+                            }
+                        }
+                    }
+                }
+                return nil
+            }()
+            guard let url = streamUrl else {
                 errorMessage = "无法获取直播流"; isLoading = false; return
             }
 
             // 解析可用质量
-            if let acceptQn = firstCodec.acceptQn {
-                qualityOptions = acceptQn.map { LiveQuality(qn: $0) }
+            for stream in playURL.playurlInfo?.playurl?.stream ?? [] {
+                for fmt in stream.format ?? [] {
+                    for codec in fmt.codec ?? [] {
+                        if let acceptQn = codec.acceptQn {
+                            qualityOptions = acceptQn.map { LiveQuality(qn: $0) }
+                            break
+                        }
+                    }
+                }
             }
 
             setupPlayer(with: url)
@@ -159,7 +180,14 @@ private struct LivePlayResponse: Decodable {
                     let codec: [CodecInfo]?
                     struct CodecInfo: Decodable {
                         let baseUrl: String?
+                        let host: String?
+                        let extra: String?
                         let acceptQn: [Int]?
+                        let urlInfo: [UrlInfoItem]?
+                        struct UrlInfoItem: Decodable {
+                            let host: String?
+                            let extra: String?
+                        }
                     }
                 }
             }

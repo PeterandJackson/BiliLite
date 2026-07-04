@@ -9,7 +9,7 @@ struct VideoDetailView: View {
     @State private var selectedPage = 0
     @State private var danmakuItems: [DanmakuItem] = []
     @State private var showDanmaku = true
-    @State private var isLiked = false; @State private var isCoined = false
+    @State private var isLiked = false; @State private var isCoined = false; @State private var isFollowing = false
     @State private var hasLogin: Bool = false
     @State private var relatedIndex = 0
 
@@ -59,7 +59,7 @@ struct VideoDetailView: View {
         .onChange(of: displayedBvid) { newBvid in
             guard newBvid != detailVM.bvid else { return }
             relatedIndex = 0; selectedPage = 0; danmakuItems = []
-            isLiked = false; isCoined = false
+            isLiked = false; isCoined = false; isFollowing = false
             Task {
                 await detailVM.reload(bvid: newBvid)
                 if let d = detailVM.detail {
@@ -132,6 +132,17 @@ struct VideoDetailView: View {
                 CachedAsyncImage(url: d.owner.faceURL).frame(width: 40, height: 40).clipShape(Circle())
                 VStack(alignment: .leading, spacing: 2) { Text(d.owner.name).font(.subheadline.bold()); Text("\(d.pubdate.relativeDate)").font(.caption).foregroundColor(.secondary) }
                 Spacer()
+                // 关注
+                Button {
+                    Task { await doFollow(d.owner.mid) }
+                } label: {
+                    Text(isFollowing ? "已关注" : "+ 关注")
+                        .font(.caption.bold())
+                        .foregroundColor(isFollowing ? .secondary : .white)
+                        .padding(.horizontal, 12).padding(.vertical, 6)
+                        .background(isFollowing ? Color(.systemGray5) : Color.pink)
+                        .clipShape(Capsule())
+                }
                 // 收藏
                 Button { toggleFav(d) } label: { Image(systemName: favVM.isFavorited(d.bvid) ? "star.fill" : "star").font(.title3).foregroundColor(favVM.isFavorited(d.bvid) ? .yellow : .secondary) }
             }.padding(.horizontal)
@@ -142,16 +153,20 @@ struct VideoDetailView: View {
     private func actionBar(_ d: VideoDetail) -> some View {
         HStack(spacing: 0) {
             actionButton("hand.thumbsup", "点赞 \(d.stat.like.biliFormatted)", isActive: isLiked) {
-                if hasLogin { isLiked.toggle() } else { /* 弹登录 */ }
+                doLike(d)
             }
             actionButton("bitcoinsign", "投币 \(d.stat.coin.biliFormatted)", isActive: isCoined) {
-                if hasLogin { isCoined.toggle() } else {}
+                doCoin(d)
             }
             actionButton("star", "收藏 \(d.stat.favorite.biliFormatted)", isActive: favVM.isFavorited(d.bvid)) { toggleFav(d) }
             actionButton("square.and.arrow.up", "分享", isActive: false) {
                 let text = "https://www.bilibili.com/video/\(d.bvid)"
-                let av = UIActivityViewController(activityItems: [URL(string: text)!], applicationActivities: nil)
-                UIApplication.shared.connectedScenes.first.flatMap { ($0 as? UIWindowScene)?.windows.first?.rootViewController?.present(av, animated: true) }
+                let items: [Any] = [URL(string: text) ?? text]
+                let av = UIActivityViewController(activityItems: items, applicationActivities: nil)
+                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let root = scene.windows.first?.rootViewController {
+                    root.present(av, animated: true)
+                }
             }
         }.padding(.vertical, 4).background(Color(.systemBackground))
     }
@@ -163,6 +178,31 @@ struct VideoDetailView: View {
                 Text(label).font(.system(size: 10)).foregroundColor(.secondary)
             }
         }.frame(maxWidth: .infinity)
+    }
+
+    private func doLike(_ d: VideoDetail) {
+        guard hasLogin else { return }
+        isLiked.toggle()
+        let op = isLiked ? 1 : 2
+        Task {
+            try? await BiliAPIClient.shared.postAction(BiliAPI.like, params: ["aid": "\(d.aid)", "like": "\(op)"])
+        }
+    }
+
+    private func doCoin(_ d: VideoDetail) {
+        guard hasLogin else { return }
+        isCoined.toggle()
+        let count = isCoined ? 2 : 1
+        Task {
+            try? await BiliAPIClient.shared.postAction(BiliAPI.coin, params: ["aid": "\(d.aid)", "multiply": "\(count)", "selectLike": "0"])
+        }
+    }
+
+    private func doFollow(_ mid: Int) async {
+        guard hasLogin else { return }
+        isFollowing.toggle()
+        let act = isFollowing ? 1 : 2
+        try? await BiliAPIClient.shared.postAction(BiliAPI.follow, params: ["fid": "\(mid)", "act": "\(act)", "reSrc": "11"])
     }
 
     private func toggleFav(_ d: VideoDetail) {

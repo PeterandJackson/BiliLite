@@ -31,7 +31,7 @@ final class LoginViewModel: ObservableObject {
     func fetchQRCode() async {
         loginStatus = "正在生成二维码..."
         do {
-            let qr: QRGenResp = try await BiliAPIClient.shared.get("/x/passport-login/web/qrcode/generate", params: [:], baseURL: "https://passport.bilibili.com")
+            let qr: QRGenResp = try await BiliAPIClient.shared.get(BiliAPI.qrGen, params: [:], baseURL: "https://passport.bilibili.com")
             guard let u = URL(string: qr.url) else { loginStatus = "QR生成失败"; return }
             qrKey = qr.qrcodeKey; loginStatus = "请用B站App扫描"
             generateQRImage(from: qr.url)
@@ -53,7 +53,7 @@ final class LoginViewModel: ObservableObject {
             for _ in 0..<120 {
                 if Task.isCancelled { return }
                 do {
-                    let p: QRCheckResp = try await BiliAPIClient.shared.get("/x/passport-login/web/qrcode/poll", params: ["qrcode_key": qrKey], baseURL: "https://passport.bilibili.com")
+                    let p: QRCheckResp = try await BiliAPIClient.shared.get(BiliAPI.qrPoll, params: ["qrcode_key": qrKey], baseURL: "https://passport.bilibili.com")
                     switch p.code {
                     case 0: loginSuccess()
                     case 86038: loginStatus = "二维码已过期"; return

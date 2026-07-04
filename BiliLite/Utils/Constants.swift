@@ -28,6 +28,34 @@ enum BiliAPI {
     static let userInfo = "/x/space/wbi/acc/info"
     /// 相关视频
     static let related = "/x/web-interface/archive/related"
+    /// 点赞
+    static let like = "/x/web-interface/archive/like"
+    /// 投币
+    static let coin = "/x/web-interface/coin/add"
+    /// 收藏/取消收藏
+    static let favAdd = "/x/v3/fav/resource/deal"
+    /// 关注UP主
+    static let follow = "/x/relation/modify"
+    /// 发送评论
+    static let sendComment = "/x/v2/reply/add"
+    /// 动态流
+    static let dynamic = "/x/polymer/web-dynamic/v1/feed/all"
+    /// 番剧时间表
+    static let bangumiTimeline = "/pgc/web/timeline"
+    /// 热门番剧推荐
+    static let bangumiHot = "/pgc/web/popular/list"
+    /// 用户收藏夹列表
+    static let favFolder = "/x/v3/fav/folder/created/list-all"
+    /// 用户历史（云端）
+    static let history = "/x/web-interface/history/cursor"
+    /// 播放进度上报
+    static let playbackReport = "/x/v2/history/report"
+    /// 二维码登录生成
+    static let qrGen = "/x/passport-login/web/qrcode/generate"
+    /// 二维码轮询
+    static let qrPoll = "/x/passport-login/web/qrcode/poll"
+    /// 退出登录
+    static let logout = "/login/exit/v2"
 }
 
 /// 视频画质代码
@@ -43,6 +71,27 @@ enum BiliQuality: Int, CaseIterable {
         case .p480:  return "480P"
         case .p720:  return "720P"
         case .p1080: return "1080P"
+        }
+    }
+}
+
+/// 播放速度选项
+enum PlaybackSpeed: Float, CaseIterable {
+    case x05 = 0.5
+    case x075 = 0.75
+    case x10 = 1.0
+    case x125 = 1.25
+    case x15 = 1.5
+    case x20 = 2.0
+
+    var label: String {
+        switch self {
+        case .x05:  return "0.5×"
+        case .x075: return "0.75×"
+        case .x10:  return "1.0×"
+        case .x125: return "1.25×"
+        case .x15:  return "1.5×"
+        case .x20:  return "2.0×"
         }
     }
 }

@@ -11,20 +11,30 @@ struct MainTabView: View {
                     Image(systemName: selectedTab == 0 ? "house.fill" : "house"); Text("首页")
                 }.tag(0)
 
+            DynamicView()
+                .tabItem {
+                    Image(systemName: selectedTab == 1 ? "bell.fill" : "bell"); Text("动态")
+                }.tag(1)
+
             SearchView()
                 .tabItem {
                     Image(systemName: "magnifyingglass"); Text("搜索")
-                }.tag(1)
+                }.tag(2)
+
+            BangumiView()
+                .tabItem {
+                    Image(systemName: selectedTab == 3 ? "play.rectangle.fill" : "play.rectangle"); Text("番剧")
+                }.tag(3)
 
             LiveView()
                 .tabItem {
-                    Image(systemName: selectedTab == 2 ? "play.tv.fill" : "play.tv"); Text("直播")
-                }.tag(2)
+                    Image(systemName: selectedTab == 4 ? "play.tv.fill" : "play.tv"); Text("直播")
+                }.tag(4)
 
             ProfileView(favVM: favVM)
                 .tabItem {
-                    Image(systemName: selectedTab == 3 ? "person.fill" : "person"); Text("我的")
-                }.tag(3)
+                    Image(systemName: selectedTab == 5 ? "person.fill" : "person"); Text("我的")
+                }.tag(5)
         }
         .onAppear { favVM.loadFavorites(); favVM.loadHistory() }
     }
@@ -111,13 +121,36 @@ struct ProfileView: View {
                     }
                 }
 
+                // 离线缓存
+                Section("离线缓存") {
+                    NavigationLink {
+                        DownloadListView()
+                    } label: {
+                        HStack {
+                            Image(systemName: "arrow.down.circle").foregroundColor(.pink)
+                            Text("离线缓存管理").foregroundColor(.primary)
+                            Spacer()
+                            Image(systemName: "chevron.right").font(.caption).foregroundColor(.secondary)
+                        }
+                    }
+                }
+
                 // 关于
                 Section {
                     HStack {
-                        Text("版本").foregroundColor(.secondary); Spacer(); Text("1.0").foregroundColor(.secondary)
+                        Text("版本").foregroundColor(.secondary); Spacer(); Text("2.0").foregroundColor(.secondary)
                     }
                     HStack {
                         Text("目标设备").foregroundColor(.secondary); Spacer(); Text("iPhone X / iOS 16.7").foregroundColor(.secondary)
+                    }
+                    // 退出登录
+                    if hasLogin {
+                        Button("退出登录") {
+                            KeychainHelper.delete(key: "bili_sessdata")
+                            KeychainHelper.delete(key: "bili_uid")
+                            KeychainHelper.delete(key: "bili_jct")
+                            hasLogin = false
+                        }.font(.caption).foregroundColor(.red)
                     }
                 }
             }
@@ -145,3 +178,70 @@ struct ProfileView: View {
         }
     }
 }
+
+// MARK: - 离线缓存管理
+
+struct DownloadListView: View {
+    @State private var downloadedVideos: [DownloadedItem] = []
+    @State private var isLoading = true
+
+    var body: some View {
+        List {
+            if isLoading {
+                HStack { Spacer(); ProgressView(); Spacer() }
+            } else if downloadedVideos.isEmpty {
+                HStack { Spacer(); Text("暂无离线视频").foregroundColor(.secondary); Spacer() }
+            } else {
+                Section("已下载 (\(downloadedVideos.count))") {
+                    ForEach(downloadedVideos) { item in
+                        HStack(spacing: 10) {
+                            CachedAsyncImage(url: URL(string: item.cover.replacingOccurrences(of: "http://", with: "https://")))
+                                .frame(width: 80, height: 45).clipShape(RoundedRectangle(cornerRadius: 4))
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(item.title).font(.subheadline).lineLimit(1)
+                                Text(byteFormatter.string(fromByteCount: item.fileSize)).font(.caption).foregroundColor(.secondary)
+                            }
+                        }
+                    }
+                    .onDelete { idx in
+                        for i in idx { deleteFile(downloadedVideos[i]) }
+                        downloadedVideos.remove(atOffsets: idx)
+                    }
+                }
+            }
+        }
+        .navigationTitle("离线缓存")
+        .onAppear { loadDownloads() }
+    }
+
+    private func loadDownloads() {
+        let docs = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let dir = docs.appendingPathComponent("BiliDownloads")
+        guard let files = try? FileManager.default.contentsOfDirectory(at: dir, includingPropertiesForKeys: [.fileSizeKey]) else {
+            isLoading = false; return
+        }
+        downloadedVideos = files.compactMap { url in
+            let attrs = try? FileManager.default.attributesOfItem(atPath: url.path)
+            let size = (attrs?[.size] as? Int64) ?? 0
+            return DownloadedItem(title: url.deletingPathExtension().lastPathComponent,
+                                  cover: "", fileSize: size, url: url)
+        }
+        isLoading = false
+    }
+
+    private func deleteFile(_ item: DownloadedItem) {
+        try? FileManager.default.removeItem(at: item.url)
+    }
+}
+
+struct DownloadedItem: Identifiable {
+    let id = UUID()
+    let title: String
+    let cover: String
+    let fileSize: Int64
+    let url: URL
+}
+
+private let byteFormatter: ByteCountFormatter = {
+    let f = ByteCountFormatter(); f.countStyle = .file; return f
+}()

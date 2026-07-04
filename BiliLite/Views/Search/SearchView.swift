@@ -60,10 +60,15 @@ struct SearchView: View {
             HStack { Text("🕐 搜索历史").font(.headline); Spacer(); Button("清空") { vm.clearHistory() }.font(.caption).foregroundColor(.red) }
             ForEach(vm.searchHistory, id: \.self) { kw in
                 HStack {
-                    Button { searchText = kw; Task { await vm.search(kw) } } label: { Text(kw).font(.subheadline).foregroundColor(.primary).lineLimit(1) }.buttonStyle(.plain)
+                    Text(kw).font(.subheadline).foregroundColor(.primary).lineLimit(1)
                     Spacer()
                     Button { vm.deleteHistory(kw) } label: { Image(systemName: "xmark").font(.caption).foregroundColor(.secondary) }
-                }.padding(.vertical, 4).padding(.horizontal, 8).background(Color(.systemBackground)).clipShape(RoundedRectangle(cornerRadius: 6))
+                }
+                .padding(.vertical, 4).padding(.horizontal, 8)
+                .background(Color(.systemBackground))
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .contentShape(Rectangle())
+                .onTapGesture { searchText = kw; Task { await vm.search(kw) } }
             }
         }
     }
@@ -72,7 +77,7 @@ struct SearchView: View {
     private var resultList: some View {
         ScrollView {
             if vm.isLoading { LoadingView(message: "搜索中…").padding(.top, 40) }
-            else if let e = vm.errorMessage { ErrorBanner(message: e) { Task { await vm.search(searchText) } }.padding(.top, 8) }
+            else if let e = vm.errorMessage { ErrorBanner(message: e) { Task { await vm.search(vm.query) } }.padding(.top, 8) }
             else if vm.results.isEmpty { VStack(spacing: 8) { Image(systemName: "video.slash").font(.system(size: 40)).foregroundColor(.secondary); Text("没有找到视频").foregroundColor(.secondary) }.padding(.top, 80) }
             else {
                 Text("共 \(vm.numResults) 个结果").font(.caption).foregroundColor(.secondary).frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal).padding(.top, 4)

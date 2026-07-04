@@ -54,6 +54,18 @@ struct PlayerOverlay: View {
                 Image(systemName: viewModel.isFullscreen ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
                     .font(.title3).foregroundColor(.white).padding(8)
             }
+            Menu {
+                ForEach(PlaybackSpeed.allCases, id: \.rawValue) { speed in
+                    Button(speed.label) {
+                        viewModel.setSpeed(speed.rawValue)
+                    }
+                }
+            } label: {
+                Text(viewModel.playbackSpeed == 1.0 ? "倍速" : "\(viewModel.playbackSpeed)×")
+                    .font(.caption.bold()).foregroundColor(.white)
+                    .padding(.horizontal, 8).padding(.vertical, 3)
+                    .background(Color.white.opacity(0.2)).clipShape(Capsule())
+            }
         }
         .background(LinearGradient(colors: [.black.opacity(0.5), .clear], startPoint: .top, endPoint: .bottom))
     }

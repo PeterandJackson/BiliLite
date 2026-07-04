@@ -9,9 +9,8 @@ final class CommentViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
 
-    private let oid: Int       // 视频 aid
+    private let oid: Int
     private var nextCursor = 0
-    private var isFirstLoad = true
     private var hasMore = true
 
     init(oid: Int) {
@@ -19,8 +18,14 @@ final class CommentViewModel: ObservableObject {
     }
 
     func loadComments() async {
-        isLoading = true
-        errorMessage = nil
+        // Refresh: reset pagination
+        nextCursor = 0; hasMore = true; comments = []
+        await loadPage()
+    }
+
+    private func loadPage() async {
+        guard !isLoading else { return }
+        isLoading = true; errorMessage = nil
 
         do {
             let replyData: ReplyData = try await BiliAPIClient.shared.getWBI(
@@ -34,20 +39,20 @@ final class CommentViewModel: ObservableObject {
                 ]
             )
 
-            if isFirstLoad {
-                comments = replyData.replies ?? []
+            if nextCursor == 0 {
                 topComment = replyData.top
                 upperName = replyData.upper?.name
                 totalCount = replyData.page?.acount ?? 0
-                isFirstLoad = false
-            } else {
-                comments.append(contentsOf: replyData.replies ?? [])
             }
-            // 使用 API 返回的真正 cursor 值，对比已加载数量与总数判断 hasMore
-            if let newCursor = replyData.page?.num {
-                nextCursor = newCursor
-                let total = replyData.page?.acount ?? 0
-                hasMore = comments.count < total
+
+            let newReplies = replyData.replies ?? []
+            comments.append(contentsOf: newReplies)
+
+            // B站 reply API: page.num 是当前页码，下一页 = num + 1
+            // 当返回数据 < ps 时说明没有更多
+            if let num = replyData.page?.num, newReplies.count >= 20 {
+                nextCursor = num + 1
+                hasMore = comments.count < totalCount
             } else {
                 hasMore = false
             }
@@ -62,7 +67,7 @@ final class CommentViewModel: ObservableObject {
         guard hasMore, !isLoading else { return }
         if let index = comments.firstIndex(where: { $0.id == comment.id }),
            index >= comments.count - 3 {
-            await loadComments()
+            await loadPage()
         }
     }
 }

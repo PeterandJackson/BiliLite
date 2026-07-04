@@ -55,9 +55,9 @@ struct LiveView: View {
         VStack(spacing: 0) {
             if vm.isLoading { LoadingView(message: "加载直播间…").frame(height: 300) }
             else if let e = vm.errorMessage { ErrorBanner(message: e) { selectedRoom = nil } }
-            else if let _ = vm.player {
+            else if let player = vm.player {
                 ZStack {
-                    LivePlayerView(player: vm.player!)
+                    LivePlayerView(player: player)
                     if !vm.danmakuItems.isEmpty { DanmakuView(items: vm.danmakuItems, currentTime: 0).allowsHitTesting(false) }
                 }.aspectRatio(16/9, contentMode: .fit).onTapGesture { vm.togglePlayPause() }
                 VStack(alignment: .leading, spacing: 4) {

@@ -81,10 +81,26 @@ actor BiliAPIClient {
         req.httpMethod = "POST"
         req.setValue("application/x-www-form-urlencoded; charset=utf-8", forHTTPHeaderField: "Content-Type")
         injectHeaders(&req, forPassport: baseURL.contains("passport"))
-        // 构造 body
-        var comps = URLComponents(); comps.queryItems = params.map { URLQueryItem(name: $0.key, value: $0.value) }
-        req.httpBody = comps.query?.data(using: .utf8)
+        // 注入 CSRF token (bili_jct) — B站所有写操作必需
+        if let jct = KeychainHelper.read(key: "bili_jct"), !jct.isEmpty {
+            var p = params; p["csrf"] = jct; p["csrf_token"] = jct
+            var comps = URLComponents(); comps.queryItems = p.map { URLQueryItem(name: $0.key, value: $0.value) }
+            req.httpBody = comps.query?.data(using: .utf8)
+        } else {
+            var comps = URLComponents(); comps.queryItems = params.map { URLQueryItem(name: $0.key, value: $0.value) }
+            req.httpBody = comps.query?.data(using: .utf8)
+        }
         return try await executeWithRetry(req)
+    }
+
+    /// POST 写操作（点赞/投币/收藏/关注等），需要 CSRF
+    func postAction(_ path: String, params: [String: String] = [:]) async throws {
+        let _: BiliActionResp = try await post(path, params: params, baseURL: BiliAPI.baseURL)
+    }
+
+    /// POST 写操作并返回数据
+    func postActionWithResp<T: Decodable>(_ path: String, params: [String: String] = [:]) async throws -> T {
+        try await post(path, params: params, baseURL: BiliAPI.baseURL)
     }
 
     /// 直接获取原始 Data（用于图片下载等）

@@ -38,7 +38,7 @@ struct LiveView: View {
     private func roomCard(_ room: LiveRoomItem) -> some View {
         VStack(alignment: .leading, spacing: 6) {
             ZStack(alignment: .bottomTrailing) {
-                CachedAsyncImage(url: URL(string: (room.cover ?? room.user_cover ?? "").replacingOccurrences(of: "http://", with: "https://")))
+                CachedAsyncImage(url: URL(string: (room.cover ?? room.userCover ?? "").replacingOccurrences(of: "http://", with: "https://")))
                     .aspectRatio(16/10, contentMode: .fill).clipShape(RoundedRectangle(cornerRadius: 8))
                 HStack(spacing: 4) {
                     Circle().fill(Color.red).frame(width: 6, height: 6)

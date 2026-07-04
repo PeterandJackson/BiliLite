@@ -37,10 +37,10 @@ final class LiveViewModel: ObservableObject {
                 "/xlive/web-room/v1/index/getInfoByRoom",
                 params: ["room_id": "\(roomId)"]
             )
-            liveStatus = roomInfo.room_info.live_status
-            roomTitle = roomInfo.room_info.title ?? "直播间"
-            ownerName = roomInfo.anchor_info.base_info.uname ?? ""
-            onlineCount = roomInfo.room_info.online ?? 0
+            liveStatus = roomInfo.roomInfo.liveStatus
+            roomTitle = roomInfo.roomInfo.title ?? "直播间"
+            ownerName = roomInfo.anchorInfo.baseInfo.uname ?? ""
+            onlineCount = roomInfo.roomInfo.online ?? 0
 
             guard liveStatus == 1 else {
                 errorMessage = "主播不在直播中"; isLoading = false; return
@@ -51,17 +51,17 @@ final class LiveViewModel: ObservableObject {
                 "/xlive/web-room/v2/index/getRoomPlayInfo",
                 params: ["room_id": "\(roomId)", "protocol": "0,1", "format": "0,1,2", "codec": "0,1"]
             )
-            guard let firstStream = playURL.playurl_info?.playurl?.stream?.first,
+            guard let firstStream = playURL.playurlInfo?.playurl?.stream?.first,
                   let firstFormat = firstStream.format?.first,
                   let firstCodec = firstFormat.codec?.first,
-                  let baseURL = firstCodec.base_url,
+                  let baseURL = firstCodec.baseUrl,
                   let url = URL(string: baseURL)
             else {
                 errorMessage = "无法获取直播流"; isLoading = false; return
             }
 
             // 解析可用质量
-            if let acceptQn = firstCodec.accept_qn {
+            if let acceptQn = firstCodec.acceptQn {
                 qualityOptions = acceptQn.map { LiveQuality(qn: $0) }
             }
 
@@ -122,7 +122,7 @@ struct LiveQuality: Identifiable {
 // MARK: - 房间列表模型
 
 struct LiveRoomItem: Identifiable, Decodable {
-    let roomid: Int; let uid: Int?; let title: String?; let uname: String?; let online: Int?; let cover: String?; let user_cover: String?
+    let roomid: Int; let uid: Int?; let title: String?; let uname: String?; let online: Int?; let cover: String?; let userCover: String?
     var id: Int { roomid }
 }
 private struct LiveListResp: Decodable {
@@ -132,15 +132,15 @@ private struct LiveListResp: Decodable {
 // MARK: - 直播响应模型
 
 private struct LiveRoomResponse: Decodable {
-    let room_info: LiveRoomInfo
-    let anchor_info: LiveAnchorInfo
+    let roomInfo: LiveRoomInfo
+    let anchorInfo: LiveAnchorInfo
     struct LiveRoomInfo: Decodable {
-        let live_status: Int
+        let liveStatus: Int
         let title: String?
         let online: Int?
     }
     struct LiveAnchorInfo: Decodable {
-        let base_info: LiveAnchorBase
+        let baseInfo: LiveAnchorBase
         struct LiveAnchorBase: Decodable {
             let uname: String?
         }
@@ -148,7 +148,7 @@ private struct LiveRoomResponse: Decodable {
 }
 
 private struct LivePlayResponse: Decodable {
-    let playurl_info: PlayURLInfo?
+    let playurlInfo: PlayURLInfo?
     struct PlayURLInfo: Decodable {
         let playurl: PlayURL?
         struct PlayURL: Decodable {
@@ -158,8 +158,8 @@ private struct LivePlayResponse: Decodable {
                 struct FormatInfo: Decodable {
                     let codec: [CodecInfo]?
                     struct CodecInfo: Decodable {
-                        let base_url: String?
-                        let accept_qn: [Int]?
+                        let baseUrl: String?
+                        let acceptQn: [Int]?
                     }
                 }
             }
